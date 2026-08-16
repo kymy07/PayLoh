@@ -177,6 +177,15 @@
     border-color: var(--glass-border);
   }
 
+  /* iOS Safari lets a `position: fixed` element drift out of place during
+     momentum scrolling when it also carries a backdrop-filter — the bar ends up
+     stranded mid-page. Promoting it to its own compositing layer pins it. */
+  .pinned {
+    transform: translateZ(0);
+    will-change: transform;
+    -webkit-transform: translateZ(0);
+  }
+
   /* The warm wash that sits behind marketing + auth screens. */
   .aurora {
     background:

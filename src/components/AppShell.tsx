@@ -61,7 +61,7 @@ export function AppShell() {
 
   return (
     <div className="min-h-dvh bg-background">
-      <header className="glass sticky top-0 z-40 border-b">
+      <header className="glass pinned sticky top-0 z-40 border-b">
         <div className="mx-auto flex h-16 max-w-6xl items-center gap-3 px-4 sm:px-6">
           <NavLink to="/app" className="shrink-0" aria-label="Payloh home">
             <Logo className="hidden sm:inline-flex" />
@@ -138,7 +138,9 @@ export function AppShell() {
         </div>
       </header>
 
-      <main className="mx-auto max-w-6xl px-4 pt-8 pb-28 sm:px-6 md:pb-16">
+      {/* Clear the tab bar *and* the home-indicator inset, so the last card in a
+          list is never left sitting underneath the chrome. */}
+      <main className="mx-auto max-w-6xl px-4 pt-8 pb-[calc(7.5rem+env(safe-area-inset-bottom))] sm:px-6 md:pb-16">
         <Outlet />
       </main>
 
@@ -146,13 +148,13 @@ export function AppShell() {
       <Button
         size="icon"
         onClick={() => openCreate()}
-        className="fixed right-5 bottom-24 z-40 size-14 shadow-lg shadow-primary/30 md:hidden"
+        className="pinned fixed right-5 bottom-[calc(6rem+env(safe-area-inset-bottom))] z-40 size-14 shadow-lg shadow-primary/30 md:hidden"
         aria-label="New debt"
       >
         <Plus className="size-6" />
       </Button>
 
-      <nav className="glass fixed inset-x-0 bottom-0 z-40 border-t pb-[env(safe-area-inset-bottom)] md:hidden">
+      <nav className="glass pinned fixed inset-x-0 bottom-0 z-40 border-t pb-[env(safe-area-inset-bottom)] md:hidden">
         <div className="flex items-stretch">
           {NAV.map(({ to, label, icon: Icon, end }) => (
             <NavLink
