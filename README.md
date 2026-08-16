@@ -42,6 +42,7 @@ display sizes, translucent chrome, spring easing, and generous whitespace.
 | 📅 **Due dates** | A live countdown per debt; anything overdue floats to the top of the dashboard |
 | 📊 **Dashboard** | Hero balance, four stat tiles, and a ranked chart of who owes the most |
 | 💬 **Drafted reminders** | A friendly message with the amount and reason, editable, one tap into WhatsApp |
+| 👥 **Per-person totals** | Names are saved once and reused from a picker; each person gets a page with their running total across every debt |
 | 🔍 **Find anything** | Search by name or reason, filter by state, sort by balance, due date or name |
 | 🌗 **Light & dark** | Follows your system unless you pick a side; no flash on load |
 | 📱 **Mobile-first** | iOS-style tab bar and a floating compose button below `md` |
@@ -58,6 +59,8 @@ display sizes, translucent chrome, spring easing, and generous whitespace.
 | `/app` | Dashboard — hero figure, stat tiles, overdue list, top-debtors chart |
 | `/app/debts` | Full ledger — search, five filters, four sort orders |
 | `/app/debts/:debtId` | One debt — balance, progress, payment history, all actions |
+| `/app/people` | Everyone you've lent to, ranked by net position |
+| `/app/people/:personKey` | One person — net headline, every debt with them, prefilled new debt |
 | `/app/settings` | Profile, currency, theme, ledger summary, sign out |
 
 ---
