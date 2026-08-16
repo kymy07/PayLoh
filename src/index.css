@@ -1,0 +1,203 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* ---------------------------------------------------------------------------
+   Payloh palette — taken straight from the reference swatch.
+   sand → linen → cream → blush → pink → rose
+   --------------------------------------------------------------------------- */
+:root {
+  --payloh-sand: #c9af87;
+  --payloh-linen: #e0cdb1;
+  --payloh-cream: #eff0dc;
+  --payloh-blush: #f8c6cd;
+  --payloh-pink: #fa8fae;
+  --payloh-rose: #ee7e9c;
+
+  --radius: 0.875rem;
+
+  --background: #fcfcf7;
+  --foreground: #2a2420;
+  --card: #ffffff;
+  --card-foreground: #2a2420;
+  --popover: #ffffff;
+  --popover-foreground: #2a2420;
+  --primary: #ee7e9c;
+  --primary-foreground: #ffffff;
+  --secondary: #eff0dc;
+  --secondary-foreground: #4a4034;
+  --muted: #f4f2ea;
+  --muted-foreground: #8a8071;
+  --accent: #f8c6cd;
+  --accent-foreground: #7a3448;
+  --destructive: #d94a52;
+  --destructive-foreground: #ffffff;
+  --success: #3f8f6d;
+  --success-foreground: #ffffff;
+  --warning: #c9873a;
+  --warning-foreground: #ffffff;
+  --border: #e9e4d7;
+  --input: #e9e4d7;
+  --ring: #fa8fae;
+
+  /* Frosted surfaces — the Apple-style translucent chrome */
+  --glass: rgb(252 252 247 / 0.72);
+  --glass-border: rgb(42 36 32 / 0.07);
+
+  /* Chart marks. One series, so one hue — a deeper step of the brand rose that
+     clears 3:1 against the white card. Dark mode picks its own step below
+     rather than flipping this one. Both are validated, not eyeballed. */
+  --chart-bar: #d9557a;
+  --chart-grid: #eeeae0;
+}
+
+.dark {
+  --background: #17150f;
+  --foreground: #f5f2e8;
+  --card: #201d16;
+  --card-foreground: #f5f2e8;
+  --popover: #201d16;
+  --popover-foreground: #f5f2e8;
+  --primary: #fa8fae;
+  --primary-foreground: #2c1017;
+  --secondary: #2a251b;
+  --secondary-foreground: #eff0dc;
+  --muted: #26221a;
+  --muted-foreground: #a89d89;
+  --accent: #3b2b2f;
+  --accent-foreground: #f8c6cd;
+  --destructive: #e5686f;
+  --destructive-foreground: #2c1017;
+  --success: #6fc79c;
+  --success-foreground: #0d2019;
+  --warning: #e0a45f;
+  --warning-foreground: #241703;
+  --border: #342e23;
+  --input: #342e23;
+  --ring: #fa8fae;
+
+  --glass: rgb(23 21 15 / 0.72);
+  --glass-border: rgb(245 242 232 / 0.09);
+
+  --chart-bar: #d65c84;
+  --chart-grid: #2c2820;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-sand: var(--payloh-sand);
+  --color-linen: var(--payloh-linen);
+  --color-cream: var(--payloh-cream);
+  --color-blush: var(--payloh-blush);
+  --color-pink: var(--payloh-pink);
+  --color-rose: var(--payloh-rose);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 6px);
+  --radius-2xl: calc(var(--radius) + 14px);
+
+  /* Apple leans on one humanist grotesque for everything. */
+  --font-sans:
+    -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI Variable Display",
+    "Segoe UI", Inter, system-ui, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", "Cascadia Code", "Roboto Mono", monospace;
+
+  --ease-spring: cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-feature-settings: "cv11", "ss01";
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Apple sets big type tight and small type loose. */
+  h1,
+  h2,
+  h3 {
+    @apply font-semibold tracking-[-0.022em];
+  }
+
+  ::selection {
+    background-color: var(--payloh-blush);
+    color: #2a2420;
+  }
+
+  :focus-visible {
+    @apply outline-ring outline-2 outline-offset-2;
+  }
+
+  /* Numbers should never jitter while a balance animates. */
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+@layer components {
+  /* Translucent chrome used by the header and the mobile tab bar. */
+  .glass {
+    background-color: var(--glass);
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    border-color: var(--glass-border);
+  }
+
+  /* The warm wash that sits behind marketing + auth screens. */
+  .aurora {
+    background:
+      radial-gradient(60rem 40rem at 12% -10%, var(--payloh-blush) 0%, transparent 55%),
+      radial-gradient(50rem 34rem at 92% 4%, var(--payloh-cream) 0%, transparent 60%),
+      radial-gradient(46rem 40rem at 74% 96%, var(--payloh-linen) 0%, transparent 58%);
+    opacity: 0.7;
+  }
+
+  .dark .aurora {
+    opacity: 0.16;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

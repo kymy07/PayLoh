@@ -1,0 +1,60 @@
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+
+    "users": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        ".write": "auth != null && auth.uid === $uid",
+        "uid": { ".validate": "newData.val() === $uid" },
+        "displayName": { ".validate": "newData.isString() && newData.val().length <= 100" },
+        "email": { ".validate": "newData.isString()" },
+        "currency": { ".validate": "newData.isString() && newData.val().length === 3" }
+      }
+    },
+
+    "debts": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        ".write": "auth != null && auth.uid === $uid",
+
+        "$debtId": {
+          ".validate": "newData.hasChildren(['ownerId', 'personName', 'direction', 'amount', 'paid', 'currency'])",
+
+          "ownerId": { ".validate": "newData.val() === $uid" },
+          "personName": {
+            ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 100"
+          },
+          "personPhone": { ".validate": "newData.isString() && newData.val().length <= 30" },
+          "direction": {
+            ".validate": "newData.val() === 'owed_to_me' || newData.val() === 'i_owe'"
+          },
+          "amount": { ".validate": "newData.isNumber() && newData.val() > 0" },
+          "paid": {
+            ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= newData.parent().child('amount').val() + 0.01"
+          },
+          "currency": { ".validate": "newData.isString() && newData.val().length === 3" },
+          "description": { ".validate": "newData.isString() && newData.val().length <= 500" },
+          "dueDate": { ".validate": "newData.isNumber()" },
+          "settledAt": { ".validate": "newData.isNumber()" },
+          "createdAt": { ".validate": "newData.isNumber()" },
+          "updatedAt": { ".validate": "newData.isNumber()" },
+
+          "payments": {
+            "$paymentId": {
+              ".validate": "newData.hasChildren(['amount', 'paidAt'])",
+              "amount": { ".validate": "newData.isNumber() && newData.val() > 0" },
+              "note": { ".validate": "newData.isString() && newData.val().length <= 200" },
+              "paidAt": { ".validate": "newData.isNumber()" },
+              "createdAt": { ".validate": "newData.isNumber()" },
+              "$other": { ".validate": false }
+            }
+          },
+
+          "$other": { ".validate": false }
+        }
+      }
+    }
+  }
+}
