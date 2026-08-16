@@ -1,18 +1,18 @@
 import { cn } from "@/lib/utils"
 
+// Lives in public/ rather than src/assets so index.html can point the favicon at
+// the same file. BASE_URL keeps it resolving under the /PayLoh/ subpath too.
+const MARK = `${import.meta.env.BASE_URL}logo-mark.png`
+
 export function LogoMark({ className }: { className?: string }) {
   return (
-    <span
-      className={cn(
-        "grid size-8 shrink-0 place-items-center rounded-[0.6rem] bg-gradient-to-br from-blush via-pink to-rose text-white shadow-sm shadow-rose/30",
-        className,
-      )}
+    <img
+      src={MARK}
+      alt=""
       aria-hidden
-    >
-      <svg viewBox="0 0 24 24" className="size-[60%]" fill="currentColor">
-        <path d="M7 19V5h5.4c3.1 0 5.2 2 5.2 5s-2.1 5-5.2 5H10v4H7Zm3-7h2.2c1.4 0 2.3-.8 2.3-2s-.9-2-2.3-2H10v4Z" />
-      </svg>
-    </span>
+      draggable={false}
+      className={cn("size-8 shrink-0 select-none object-contain", className)}
+    />
   )
 }
 

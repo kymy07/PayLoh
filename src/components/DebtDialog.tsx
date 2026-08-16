@@ -14,6 +14,13 @@ import {
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
 import { useAuth } from "@/contexts/AuthContext"
 import { createDebt, updateDebt, useDebts } from "@/hooks/useDebts"
@@ -130,19 +137,35 @@ export function DebtDialog({ open, onOpenChange, debt, prefill }: DebtDialogProp
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="grid grid-cols-2 gap-2 rounded-2xl bg-muted p-1">
-            <DirectionOption
-              active={direction === "owed_to_me"}
-              onClick={() => setDirection("owed_to_me")}
-              icon={<ArrowDownLeft className="size-4" />}
-              label="They owe me"
-            />
-            <DirectionOption
-              active={direction === "i_owe"}
-              onClick={() => setDirection("i_owe")}
-              icon={<ArrowUpRight className="size-4" />}
-              label="I owe them"
-            />
+          <div className="space-y-2">
+            <Label htmlFor="direction">Which way?</Label>
+            <Select
+              value={direction}
+              onValueChange={(value) => setDirection(value as DebtDirection)}
+            >
+              <SelectTrigger id="direction">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="owed_to_me">
+                  <span className="flex items-center gap-2.5">
+                    <ArrowDownLeft className="size-4 text-success" />
+                    They borrowed from me
+                  </span>
+                </SelectItem>
+                <SelectItem value="i_owe">
+                  <span className="flex items-center gap-2.5">
+                    <ArrowUpRight className="size-4 text-warning" />
+                    I borrowed from them
+                  </span>
+                </SelectItem>
+              </SelectContent>
+            </Select>
+            <p className="text-xs text-muted-foreground">
+              {direction === "owed_to_me"
+                ? "Counts towards what people owe you."
+                : "Counts against you in the net position."}
+            </p>
           </div>
 
           <div className="space-y-2">
@@ -244,34 +267,5 @@ export function DebtDialog({ open, onOpenChange, debt, prefill }: DebtDialogProp
         </form>
       </DialogContent>
     </Dialog>
-  )
-}
-
-function DirectionOption({
-  active,
-  onClick,
-  icon,
-  label,
-}: {
-  active: boolean
-  onClick: () => void
-  icon: React.ReactNode
-  label: string
-}) {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      aria-pressed={active}
-      className={cn(
-        "flex items-center justify-center gap-2 rounded-xl px-3 py-2.5 text-[13px] font-medium transition-all duration-200 ease-spring",
-        active
-          ? "bg-card text-foreground shadow-sm"
-          : "text-muted-foreground hover:text-foreground",
-      )}
-    >
-      {icon}
-      {label}
-    </button>
   )
 }
