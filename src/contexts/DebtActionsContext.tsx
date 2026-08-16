@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom"
 import { toast } from "sonner"
 
 import { ConfirmDialog } from "@/components/ConfirmDialog"
-import { DebtDialog } from "@/components/DebtDialog"
+import { DebtDialog, type DebtPrefill } from "@/components/DebtDialog"
 import { PaymentDialog } from "@/components/PaymentDialog"
 import { ReminderDialog } from "@/components/ReminderDialog"
 import { useAuth } from "@/contexts/AuthContext"
@@ -12,7 +12,8 @@ import { formatMoney } from "@/lib/format"
 import { remaining, type Debt } from "@/lib/types"
 
 interface DebtActionsValue {
-  openCreate: () => void
+  /** Optionally seeded with a person, e.g. from their own page. */
+  openCreate: (prefill?: DebtPrefill) => void
   openEdit: (debt: Debt) => void
   openPayment: (debt: Debt) => void
   openReminder: (debt: Debt) => void
@@ -31,18 +32,21 @@ export function DebtActionsProvider({ children }: { children: React.ReactNode })
   const { user } = useAuth()
 
   const [editing, setEditing] = useState<Debt | null>(null)
+  const [prefill, setPrefill] = useState<DebtPrefill | null>(null)
   const [debtOpen, setDebtOpen] = useState(false)
   const [paying, setPaying] = useState<Debt | null>(null)
   const [reminding, setReminding] = useState<Debt | null>(null)
   const [deleting, setDeleting] = useState<Debt | null>(null)
 
-  const openCreate = useCallback(() => {
+  const openCreate = useCallback((seed?: DebtPrefill) => {
     setEditing(null)
+    setPrefill(seed ?? null)
     setDebtOpen(true)
   }, [])
 
   const openEdit = useCallback((debt: Debt) => {
     setEditing(debt)
+    setPrefill(null)
     setDebtOpen(true)
   }, [])
 
@@ -90,7 +94,12 @@ export function DebtActionsProvider({ children }: { children: React.ReactNode })
     <DebtActionsContext.Provider value={value}>
       {children}
 
-      <DebtDialog open={debtOpen} onOpenChange={setDebtOpen} debt={editing} />
+      <DebtDialog
+        open={debtOpen}
+        onOpenChange={setDebtOpen}
+        debt={editing}
+        prefill={prefill}
+      />
       <PaymentDialog
         open={Boolean(paying)}
         onOpenChange={(open) => !open && setPaying(null)}

@@ -1,4 +1,4 @@
-import {
+﻿import {
   ArrowRight,
   ArrowUpRight,
   CalendarClock,
@@ -57,7 +57,7 @@ export function Dashboard() {
           title="Your ledger is empty"
           description="Add the first debt and Payloh will keep track of the rest — balances, due dates, and all."
           action={
-            <Button onClick={actions.openCreate}>
+            <Button onClick={() => actions.openCreate()}>
               <Plus /> Add your first debt
             </Button>
           }
@@ -89,7 +89,7 @@ export function Dashboard() {
             </div>
 
             <div className="mt-6 flex flex-wrap gap-2">
-              <Button onClick={actions.openCreate}>
+              <Button onClick={() => actions.openCreate()}>
                 <Plus /> New debt
               </Button>
               <Button variant="outline" asChild>
@@ -187,7 +187,7 @@ export function Dashboard() {
               title="Everyone's square"
               description={`All ${debts.length} debts are settled. Nothing to chase today.`}
               action={
-                <Button variant="outline" onClick={actions.openCreate}>
+                <Button variant="outline" onClick={() => actions.openCreate()}>
                   <Plus /> Add a new debt
                 </Button>
               }

@@ -6,6 +6,7 @@ import {
   Plus,
   Settings,
   Sun,
+  Users,
   Wallet,
 } from "lucide-react"
 import { NavLink, Outlet, useNavigate } from "react-router-dom"
@@ -31,6 +32,7 @@ import { cn } from "@/lib/utils"
 const NAV = [
   { to: "/app", label: "Dashboard", icon: LayoutDashboard, end: true },
   { to: "/app/debts", label: "Debts", icon: Wallet, end: false },
+  { to: "/app/people", label: "People", icon: Users, end: false },
   { to: "/app/settings", label: "Settings", icon: Settings, end: false },
 ] as const
 
@@ -88,7 +90,7 @@ export function AppShell() {
           </nav>
 
           <div className="ml-auto flex items-center gap-2">
-            <Button size="sm" onClick={openCreate} className="hidden sm:inline-flex">
+            <Button size="sm" onClick={() => openCreate()} className="hidden sm:inline-flex">
               <Plus /> New debt
             </Button>
 
@@ -143,7 +145,7 @@ export function AppShell() {
       {/* Mobile: an iOS-style tab bar plus a floating compose button. */}
       <Button
         size="icon"
-        onClick={openCreate}
+        onClick={() => openCreate()}
         className="fixed right-5 bottom-24 z-40 size-14 shadow-lg shadow-primary/30 md:hidden"
         aria-label="New debt"
       >

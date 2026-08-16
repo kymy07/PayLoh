@@ -13,6 +13,8 @@ import { Debts } from "@/pages/Debts"
 import { Landing } from "@/pages/Landing"
 import { Login } from "@/pages/Login"
 import { NotFound } from "@/pages/NotFound"
+import { People } from "@/pages/People"
+import { PersonDetail } from "@/pages/PersonDetail"
 import { Settings } from "@/pages/Settings"
 import { Signup } from "@/pages/Signup"
 
@@ -84,6 +86,8 @@ export default function App() {
                 <Route index element={<Dashboard />} />
                 <Route path="debts" element={<Debts />} />
                 <Route path="debts/:debtId" element={<DebtDetail />} />
+                <Route path="people" element={<People />} />
+                <Route path="people/:personKey" element={<PersonDetail />} />
                 <Route path="settings" element={<Settings />} />
               </Route>
 

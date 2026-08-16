@@ -2,6 +2,7 @@ import { ArrowDownLeft, ArrowUpRight } from "lucide-react"
 import { useEffect, useState } from "react"
 import { toast } from "sonner"
 
+import { PersonCombobox } from "@/components/PersonCombobox"
 import { Button } from "@/components/ui/button"
 import {
   Dialog,
@@ -15,16 +16,24 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { useAuth } from "@/contexts/AuthContext"
-import { createDebt, updateDebt } from "@/hooks/useDebts"
+import { createDebt, updateDebt, useDebts } from "@/hooks/useDebts"
+import { usePersonSuggestions } from "@/hooks/usePeople"
 import { CURRENCIES } from "@/lib/format"
 import type { Debt, DebtDirection } from "@/lib/types"
 import { cn } from "@/lib/utils"
+
+export interface DebtPrefill {
+  personName?: string
+  personPhone?: string | null
+}
 
 interface DebtDialogProps {
   open: boolean
   onOpenChange: (open: boolean) => void
   /** Passing a debt switches the dialog into edit mode. */
   debt?: Debt | null
+  /** Seeds a new debt — used by "New debt with …" on a person's page. */
+  prefill?: DebtPrefill | null
 }
 
 /** `<input type="date">` wants yyyy-MM-dd in local time, not an ISO instant. */
@@ -34,8 +43,10 @@ function toDateInput(date: Date | null): string {
   return new Date(date.getTime() - offset).toISOString().slice(0, 10)
 }
 
-export function DebtDialog({ open, onOpenChange, debt }: DebtDialogProps) {
+export function DebtDialog({ open, onOpenChange, debt, prefill }: DebtDialogProps) {
   const { user, currency } = useAuth()
+  const { debts } = useDebts()
+  const people = usePersonSuggestions(debts)
   const editing = Boolean(debt)
 
   const [direction, setDirection] = useState<DebtDirection>("owed_to_me")
@@ -50,13 +61,13 @@ export function DebtDialog({ open, onOpenChange, debt }: DebtDialogProps) {
   useEffect(() => {
     if (!open) return
     setDirection(debt?.direction ?? "owed_to_me")
-    setPersonName(debt?.personName ?? "")
-    setPersonPhone(debt?.personPhone ?? "")
+    setPersonName(debt?.personName ?? prefill?.personName ?? "")
+    setPersonPhone(debt?.personPhone ?? prefill?.personPhone ?? "")
     setAmount(debt ? String(debt.amount) : "")
     setDescription(debt?.description ?? "")
     setDueDate(toDateInput(debt?.dueDate ? new Date(debt.dueDate) : null))
     setSaving(false)
-  }, [open, debt])
+  }, [open, debt, prefill])
 
   const symbol = CURRENCIES.find((c) => c.code === (debt?.currency ?? currency))?.symbol ?? ""
 
@@ -136,15 +147,25 @@ export function DebtDialog({ open, onOpenChange, debt }: DebtDialogProps) {
 
           <div className="space-y-2">
             <Label htmlFor="personName">Name</Label>
-            <Input
+            <PersonCombobox
               id="personName"
               value={personName}
-              onChange={(e) => setPersonName(e.target.value)}
-              placeholder="Aiman"
-              autoComplete="off"
-              autoFocus
-              required
+              onChange={setPersonName}
+              // Reusing a saved person carries their number over, so the
+              // WhatsApp reminder works without retyping it every time.
+              onSelect={(person) => {
+                if (person.phone) setPersonPhone(person.phone)
+              }}
+              people={people}
+              currency={currency}
+              placeholder="Type a name, or pick someone saved"
             />
+            {people.length > 0 && (
+              <p className="text-xs text-muted-foreground">
+                {people.length} {people.length === 1 ? "person" : "people"} saved — start typing
+                to filter.
+              </p>
+            )}
           </div>
 
           <div className="grid gap-4 sm:grid-cols-2">

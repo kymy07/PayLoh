@@ -1,4 +1,4 @@
-import { ArrowDownWideNarrow, Plus, Search, SearchX, Wallet, X } from "lucide-react"
+﻿import { ArrowDownWideNarrow, Plus, Search, SearchX, Wallet, X } from "lucide-react"
 import { useMemo, useState } from "react"
 
 import { DebtCard } from "@/components/DebtCard"
@@ -102,7 +102,7 @@ export function Debts() {
             {outstanding > 0 && ` · ${formatMoney(outstanding, currency)} outstanding`}
           </p>
         </div>
-        <Button onClick={actions.openCreate} className="hidden sm:inline-flex">
+        <Button onClick={() => actions.openCreate()} className="hidden sm:inline-flex">
           <Plus /> New debt
         </Button>
       </div>
@@ -162,7 +162,7 @@ export function Debts() {
             title="Nothing logged yet"
             description="Add your first debt and it'll show up here with its balance and due date."
             action={
-              <Button onClick={actions.openCreate}>
+              <Button onClick={() => actions.openCreate()}>
                 <Plus /> Add a debt
               </Button>
             }
