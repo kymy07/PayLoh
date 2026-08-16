@@ -32,6 +32,12 @@ committed template and contains no real keys.
 | `npm run preview` | Serve the production build locally |
 | `npm run deploy` | Build and push to Firebase Hosting |
 
+Pushing to `main` also builds and publishes to GitHub Pages at
+<https://kymy07.github.io/PayLoh/> via `.github/workflows/deploy-pages.yml`.
+The app is base-path aware — `VITE_BASE_PATH` sets the asset prefix and the
+router picks it up from `import.meta.env.BASE_URL`, so the same source deploys
+to a subpath or a root domain unchanged.
+
 ## What it does
 
 - **Email/password and Google sign-in**, with password reset

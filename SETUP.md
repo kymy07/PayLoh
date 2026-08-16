@@ -55,15 +55,55 @@ firebase login
 firebase deploy --only database
 ```
 
-### 4. Deploy the site (optional, when you're ready)
+### 4. Deploy
+
+Two options — GitHub Pages is already wired up, Firebase Hosting is one command.
+
+#### GitHub Pages → `kymy07.github.io/PayLoh/`
+
+A Vite app can't be served straight from the repo: the source `index.html`
+points at `/src/main.tsx`, which no browser can run. `.github/workflows/deploy-pages.yml`
+builds it properly and publishes `dist/`. Three things have to be set once:
+
+**a. Point Pages at the workflow**
+
+Repo **Settings → Pages → Build and deployment → Source: GitHub Actions**
+(not "Deploy from a branch" — that's what caused the blank page).
+
+**b. Add the three private keys as repo secrets**
+
+Repo **Settings → Secrets and variables → Actions → New repository secret**:
+
+| Name | Value |
+|---|---|
+| `VITE_FIREBASE_API_KEY` | from the console |
+| `VITE_FIREBASE_MESSAGING_SENDER_ID` | from the console |
+| `VITE_FIREBASE_APP_ID` | from the console |
+
+The other four are already in the workflow — they're public identifiers that
+appear in every Firebase web bundle. What protects the data is
+`database.rules.json`, not hiding them.
+
+Without these secrets the site still builds and loads; it just shows the
+"Connect Firebase to continue" notice instead of signing anyone in.
+
+**c. Authorise the domain in Firebase**
+
+**Authentication → Settings → Authorised domains → Add domain** →
+`kymy07.github.io`. Sign-in fails with `auth/unauthorized-domain` until this is done.
+
+Every push to `main` redeploys. You can also trigger it by hand from the
+**Actions** tab.
+
+#### Firebase Hosting → `payloh-website.web.app`
 
 ```powershell
+npm install -g firebase-tools
+firebase login
 npm run deploy
 ```
 
-Lands at `https://payloh-website.web.app`. Afterwards add that domain under
-**Authentication → Settings → Authorised domains** so Google sign-in works in
-production.
+Add `payloh-website.web.app` to authorised domains too.
 
 ---
 

@@ -49,7 +49,9 @@ export default function App() {
     <ThemeProvider>
       <AuthProvider>
         <TooltipProvider>
-          <Router>
+          {/* BASE_URL is "/" on Firebase Hosting and "/PayLoh/" on GitHub
+              Pages, so routes resolve correctly under either deployment. */}
+          <Router basename={import.meta.env.BASE_URL}>
             <Routes>
               <Route path="/" element={<Landing />} />
               <Route

@@ -4,6 +4,9 @@ import react from "@vitejs/plugin-react"
 import tailwindcss from "@tailwindcss/vite"
 
 export default defineConfig({
+  // Firebase Hosting serves from the root; GitHub Pages serves from /PayLoh/.
+  // The Pages workflow sets VITE_BASE_PATH so one build config covers both.
+  base: process.env.VITE_BASE_PATH ?? "/",
   plugins: [react(), tailwindcss()],
   resolve: {
     alias: {
