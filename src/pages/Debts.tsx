@@ -188,7 +188,7 @@ export function Debts() {
           />
         )
       ) : (
-        <div className="grid gap-3 lg:grid-cols-2">
+        <div className="grid gap-3 lg:grid-cols-2 2xl:grid-cols-3">
           {visible.map((debt, index) => (
             <Reveal key={debt.id} delay={Math.min(index, 6) * 45}>
               <DebtCard

@@ -77,7 +77,7 @@ export function Settings() {
   }
 
   return (
-    <div className="mx-auto max-w-2xl space-y-6">
+    <div className="mx-auto max-w-3xl space-y-6">
       <LargeTitle
         title="Settings"
         description="Your account, your defaults, your ledger."

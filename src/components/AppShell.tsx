@@ -109,10 +109,12 @@ function Shell() {
   return (
     <div ref={rootRef} className="min-h-dvh bg-background">
       <header className="material pinned sticky top-0 z-40 border-b border-[--material-border]">
-        <div className="mx-auto flex h-[52px] max-w-5xl items-center gap-3 px-4 sm:px-6">
+        {/* Full-bleed bar: the logo sits against the left edge and the account
+            against the right, the way a web app's chrome normally does. */}
+        <div className="flex h-16 items-center gap-3 px-4 sm:px-6 lg:px-8">
           <NavLink to="/app" className="shrink-0" aria-label="Payloh home">
-            <Logo className="hidden sm:inline-flex" markClassName="size-7" />
-            <LogoMark className="size-7 sm:hidden" />
+            <Logo className="hidden sm:inline-flex" markClassName="size-8" />
+            <LogoMark className="size-8 sm:hidden" />
           </NavLink>
 
           {/* The page title, arriving as the large one above it folds away. */}
@@ -123,7 +125,7 @@ function Shell() {
             {title}
           </span>
 
-          <nav className="ml-2 hidden items-center gap-0.5 md:flex">
+          <nav className="ml-4 hidden items-center gap-0.5 md:flex">
             {NAV.map(({ to, label, icon: Icon, end }) => (
               <NavLink
                 key={to}
@@ -131,14 +133,14 @@ function Shell() {
                 end={end}
                 className={({ isActive }) =>
                   cn(
-                    "text-footnote press flex items-center gap-1.5 rounded-lg px-3 py-1.5 font-medium",
+                    "text-subhead press flex items-center gap-1.5 rounded-lg px-3 py-2 font-medium",
                     isActive
                       ? "bg-secondary text-foreground"
                       : "text-muted-foreground hover:text-foreground",
                   )
                 }
               >
-                <Icon className="size-[15px]" />
+                <Icon className="size-4" />
                 {label}
               </NavLink>
             ))}
@@ -155,7 +157,7 @@ function Shell() {
                   className="press rounded-full outline-none focus-visible:ring-[3px] focus-visible:ring-ring/40"
                   aria-label="Account menu"
                 >
-                  <Avatar className="size-8 ring-1 ring-border">
+                  <Avatar className="size-9 ring-1 ring-border">
                     {user?.photoURL && <AvatarImage src={user.photoURL} alt="" />}
                     <AvatarFallback className="bg-secondary text-secondary-foreground text-caption">
                       {initialsOf(name)}
@@ -193,7 +195,9 @@ function Shell() {
         </div>
       </header>
 
-      <main className="mx-auto max-w-5xl px-4 pt-7 pb-[calc(7.5rem+env(safe-area-inset-bottom))] sm:px-6 md:pb-20">
+      {/* Content uses the width it is given, stopping only where a line would
+          get too long to scan on a very wide display. */}
+      <main className="mx-auto w-full max-w-[1600px] px-4 pt-8 pb-[calc(7.5rem+env(safe-area-inset-bottom))] sm:px-6 md:pb-20 lg:px-8">
         <Outlet />
       </main>
 

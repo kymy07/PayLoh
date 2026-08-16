@@ -35,7 +35,7 @@ export function PersonDetail() {
 
   if (loading) {
     return (
-      <div className="mx-auto max-w-3xl space-y-6">
+      <div className="mx-auto max-w-4xl space-y-6">
         <Skeleton className="h-9 w-32" />
         <Skeleton className="h-64 w-full rounded-2xl" />
         <Skeleton className="h-40 w-full rounded-2xl" />
@@ -78,7 +78,7 @@ export function PersonDetail() {
   const done = person.debts.filter((debt) => statusOf(debt) === "settled")
 
   return (
-    <div className="mx-auto max-w-3xl space-y-6">
+    <div className="mx-auto max-w-4xl space-y-6">
       <Button variant="ghost" size="sm" onClick={() => navigate(-1)} className="-ml-2">
         <ArrowLeft /> Back
       </Button>

@@ -140,7 +140,7 @@ export function Dashboard() {
                 <h2 className="text-title-3">Needs a nudge</h2>
                 <Badge variant="destructive">{overdue.length}</Badge>
               </div>
-              <div className="grid gap-3 lg:grid-cols-2">
+              <div className="grid gap-3 lg:grid-cols-2 2xl:grid-cols-3">
                 {overdue.slice(0, 4).map((debt) => (
                   <DebtCard
                     key={debt.id}
@@ -170,7 +170,7 @@ export function Dashboard() {
                   </Link>
                 </Button>
               </div>
-              <div className="grid gap-3 lg:grid-cols-2">
+              <div className="grid gap-3 lg:grid-cols-2 2xl:grid-cols-3">
                 {active.map((debt) => (
                   <DebtCard
                     key={debt.id}

@@ -86,7 +86,7 @@ export function People() {
         />
       ) : (
         <>
-          <div className="grid gap-4 sm:grid-cols-3">
+          <div className="grid gap-3 sm:grid-cols-3">
             <StatCard
               label="People tracked"
               value={String(people.length)}
@@ -161,7 +161,7 @@ export function People() {
               }
             />
           ) : (
-            <div className="space-y-3">
+            <div className="grid gap-3 xl:grid-cols-2">
               {visible.map((person, index) => (
                 <Reveal key={person.key} delay={Math.min(index, 6) * 45}>
                   <PersonRow person={person} currency={currency} />
