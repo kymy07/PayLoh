@@ -219,7 +219,7 @@ export async function deletePayment(ownerId: string, debtId: string, paymentId: 
   if (!result.committed) throw new Error("Couldn't remove that payment. Try again.")
 }
 
-/** "Mark as fully paid" — logs the remainder as one final instalment. */
+/** "Pay Full" — logs whatever is left as one final instalment. */
 export async function settleDebt(ownerId: string, debt: Debt) {
   const outstanding = remaining(debt)
   if (outstanding <= 0.005) return

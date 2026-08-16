@@ -144,7 +144,7 @@ export function DebtCard({
               <Wallet /> Record payment
             </Button>
             <Button variant="ghost" size="sm" onClick={() => onSettle(debt)}>
-              <Check /> Mark paid
+              <Check /> Pay Full
             </Button>
           </>
         )}

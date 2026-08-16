@@ -185,7 +185,7 @@ export function DebtDetail() {
                 <Wallet /> Record payment
               </Button>
               <Button variant="secondary" onClick={() => actions.markSettled(debt)}>
-                <Check /> Mark fully paid
+                <Check /> Pay Full
               </Button>
             </>
           )}
