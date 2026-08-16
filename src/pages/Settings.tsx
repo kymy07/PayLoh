@@ -3,6 +3,7 @@ import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { toast } from "sonner"
 
+import { LargeTitle } from "@/components/PageTitle"
 import { Button } from "@/components/ui/button"
 import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -77,12 +78,11 @@ export function Settings() {
 
   return (
     <div className="mx-auto max-w-2xl space-y-6">
-      <div>
-        <h1 className="text-[28px] leading-tight font-semibold tracking-[-0.03em]">Settings</h1>
-        <p className="mt-1 text-sm text-muted-foreground">
-          Your account, your defaults, your ledger.
-        </p>
-      </div>
+      <LargeTitle
+        title="Settings"
+        description="Your account, your defaults, your ledger."
+        className="pb-0"
+      />
 
       <Card>
         <CardHeader>

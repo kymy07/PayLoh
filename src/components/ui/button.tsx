@@ -6,27 +6,25 @@ import { Loader2 } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium transition-all duration-200 ease-spring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 outline-none focus-visible:ring-[3px] focus-visible:ring-ring/40 active:scale-[0.97]",
+  // iOS buttons are capsules that press *into* the surface — they never lift,
+  // never glow, and carry no gradient.
+  "inline-flex items-center justify-center gap-1.5 whitespace-nowrap rounded-full font-medium tracking-[-0.011em] transition-[transform,background-color,opacity] duration-200 ease-spring disabled:pointer-events-none disabled:opacity-40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 outline-none focus-visible:ring-[3px] focus-visible:ring-ring/40 active:scale-[0.97]",
   {
     variants: {
       variant: {
-        default:
-          "bg-primary text-primary-foreground shadow-sm shadow-primary/25 hover:brightness-105 hover:shadow-md hover:shadow-primary/30",
-        secondary:
-          "bg-secondary text-secondary-foreground hover:bg-secondary/80 border border-border/60",
-        outline:
-          "border border-border bg-card/60 backdrop-blur-sm hover:bg-accent/40 hover:border-primary/30",
-        ghost: "hover:bg-muted text-foreground/80 hover:text-foreground",
-        destructive:
-          "bg-destructive text-destructive-foreground shadow-sm hover:brightness-110",
-        success: "bg-success text-success-foreground shadow-sm hover:brightness-110",
+        default: "bg-primary text-primary-foreground hover:opacity-90",
+        secondary: "bg-secondary text-secondary-foreground hover:opacity-80",
+        outline: "border border-input bg-card hover:bg-muted",
+        ghost: "text-primary hover:bg-muted",
+        destructive: "bg-destructive text-destructive-foreground hover:opacity-90",
+        success: "bg-success text-success-foreground hover:opacity-90",
         link: "text-primary underline-offset-4 hover:underline active:scale-100",
       },
       size: {
-        default: "h-10 px-5 has-[>svg]:px-4",
+        default: "h-9 px-4 text-[15px] has-[>svg]:px-3.5",
         sm: "h-8 px-3.5 text-[13px] has-[>svg]:px-3",
-        lg: "h-12 px-7 text-base has-[>svg]:px-6",
-        icon: "size-10",
+        lg: "h-11 px-6 text-[17px] has-[>svg]:px-5",
+        icon: "size-9",
         "icon-sm": "size-8",
       },
     },

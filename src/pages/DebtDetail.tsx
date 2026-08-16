@@ -147,7 +147,7 @@ export function DebtDetail() {
             <Progress
               value={progress}
               className="mt-5 h-1.5"
-              indicatorClassName="bg-gradient-to-r from-blush to-rose"
+              indicatorClassName="bg-primary"
             />
             <div className="mt-2 flex justify-between text-[13px] text-muted-foreground">
               <span className="tabular">{formatMoney(debt.paid, debt.currency)} paid</span>

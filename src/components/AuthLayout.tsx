@@ -11,27 +11,25 @@ interface AuthLayoutProps {
 
 export function AuthLayout({ title, subtitle, children, footer }: AuthLayoutProps) {
   return (
-    <div className="relative flex min-h-dvh flex-col overflow-hidden bg-background">
-      <div className="aurora pointer-events-none absolute inset-0 -z-10" />
-
-      <header className="px-6 py-6">
+    <div className="flex min-h-dvh flex-col bg-background">
+      <header className="px-5 py-5 sm:px-6">
         <Link to="/" aria-label="Back to the Payloh home page">
-          <Logo />
+          <Logo markClassName="size-7" />
         </Link>
       </header>
 
-      <main className="flex flex-1 items-center justify-center px-4 pb-16">
-        <div className="w-full max-w-[400px]">
-          <div className="mb-8 text-center">
-            <h1 className="text-[32px] leading-tight font-semibold tracking-[-0.03em]">{title}</h1>
-            <p className="mt-2 text-[15px] text-balance text-muted-foreground">{subtitle}</p>
+      <main className="flex flex-1 items-center justify-center px-5 pb-20">
+        <div className="w-full max-w-[380px]">
+          <div className="mb-7 text-center">
+            <h1 className="text-title-1">{title}</h1>
+            <p className="text-subhead mt-2 text-balance text-muted-foreground">{subtitle}</p>
           </div>
 
-          <div className="rounded-[1.75rem] border border-border/70 bg-card/80 p-6 shadow-xl shadow-black/[0.04] backdrop-blur-xl sm:p-7">
+          <div className="rounded-2xl border border-border bg-card p-6 shadow-[0_1px_2px_rgb(28_26_23/0.04)]">
             {children}
           </div>
 
-          <p className="mt-6 text-center text-sm text-muted-foreground">{footer}</p>
+          <p className="text-subhead mt-6 text-center text-muted-foreground">{footer}</p>
         </div>
       </main>
     </div>

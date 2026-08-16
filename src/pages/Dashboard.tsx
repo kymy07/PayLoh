@@ -1,4 +1,4 @@
-﻿import {
+import {
   ArrowRight,
   ArrowUpRight,
   CalendarClock,
@@ -10,8 +10,11 @@
 } from "lucide-react"
 import { Link } from "react-router-dom"
 
+import { AnimatedNumber } from "@/components/AnimatedNumber"
 import { DebtCard } from "@/components/DebtCard"
 import { EmptyState } from "@/components/EmptyState"
+import { LargeTitle } from "@/components/PageTitle"
+import { Reveal } from "@/components/Reveal"
 import { StatCard } from "@/components/StatCard"
 import { TopPeopleChart } from "@/components/TopPeopleChart"
 import { Badge } from "@/components/ui/badge"
@@ -41,21 +44,14 @@ export function Dashboard() {
   if (loading) return <DashboardSkeleton />
 
   return (
-    <div className="space-y-8">
-      <div>
-        <p className="text-sm text-muted-foreground">
-          {greeting()}, {firstName}
-        </p>
-        <h1 className="mt-1 text-[28px] leading-tight font-semibold tracking-[-0.03em]">
-          Here's where things stand
-        </h1>
-      </div>
+    <div>
+      <LargeTitle title="Dashboard" eyebrow={`${greeting()}, ${firstName}`} />
 
       {debts.length === 0 ? (
         <EmptyState
           icon={Wallet}
           title="Your ledger is empty"
-          description="Add the first debt and Payloh will keep track of the rest — balances, due dates, and all."
+          description="Add the first debt and Payloh keeps track of the rest — balances, due dates, and all."
           action={
             <Button onClick={() => actions.openCreate()}>
               <Plus /> Add your first debt
@@ -63,78 +59,85 @@ export function Dashboard() {
           }
         />
       ) : (
-        <>
-          {/* Hero figure — the one number this view leads with. */}
-          <Card className="relative gap-0 overflow-hidden p-6 sm:p-8">
-            <div className="aurora pointer-events-none absolute inset-0 -z-10" />
-            <p className="text-[13px] font-medium text-muted-foreground">Owed to you</p>
-            <p className="mt-2 text-[clamp(2.75rem,8vw,3.75rem)] leading-none font-semibold tracking-[-0.04em]">
-              {formatMoney(totals.owedToMe, currency)}
-            </p>
+        <div className="space-y-7">
+          {/* The one figure this screen is about. */}
+          <Reveal>
+            <Card className="gap-0 p-6 sm:p-7">
+              <p className="text-footnote text-muted-foreground">Owed to you</p>
+              <AnimatedNumber
+                value={totals.owedToMe}
+                format={(v) => formatMoney(v, currency)}
+                className="mt-1.5 block text-[clamp(2.5rem,8vw,3.25rem)] leading-none font-bold tracking-[-0.035em]"
+              />
 
-            <div className="mt-4 flex flex-wrap items-center gap-2">
-              {totals.overdueCount > 0 && (
-                <Badge variant="destructive">
-                  <CalendarClock className="size-3" /> {totals.overdueCount} overdue
+              <div className="mt-4 flex flex-wrap items-center gap-1.5">
+                {totals.overdueCount > 0 && (
+                  <Badge variant="destructive">
+                    <CalendarClock className="size-3" /> {totals.overdueCount} overdue
+                  </Badge>
+                )}
+                <Badge variant="secondary">
+                  {totals.activeCount} active {totals.activeCount === 1 ? "debt" : "debts"}
                 </Badge>
-              )}
-              <Badge variant="secondary">
-                {totals.activeCount} active {totals.activeCount === 1 ? "debt" : "debts"}
-              </Badge>
-              {totals.settledCount > 0 && (
-                <Badge variant="success">
-                  <CircleCheck className="size-3" /> {totals.settledCount} settled
-                </Badge>
-              )}
-            </div>
+                {totals.settledCount > 0 && (
+                  <Badge variant="success">{totals.settledCount} settled</Badge>
+                )}
+              </div>
 
-            <div className="mt-6 flex flex-wrap gap-2">
-              <Button onClick={() => actions.openCreate()}>
-                <Plus /> New debt
-              </Button>
-              <Button variant="outline" asChild>
-                <Link to="/app/debts">
-                  See all debts <ArrowRight />
-                </Link>
-              </Button>
-            </div>
-          </Card>
+              <div className="mt-6 flex flex-wrap gap-2">
+                <Button onClick={() => actions.openCreate()}>
+                  <Plus /> New debt
+                </Button>
+                <Button variant="secondary" asChild>
+                  <Link to="/app/debts">
+                    See all debts <ArrowRight />
+                  </Link>
+                </Button>
+              </div>
+            </Card>
+          </Reveal>
 
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            <StatCard
-              label="You owe"
-              value={formatMoney(totals.iOwe, currency)}
-              icon={ArrowUpRight}
-              tone={totals.iOwe > 0 ? "negative" : "muted"}
-              hint={totals.iOwe > 0 ? "Outstanding to others" : "Nothing outstanding"}
-            />
-            <StatCard
-              label="Net position"
-              value={formatMoney(totals.net, currency)}
-              icon={TrendingUp}
-              tone={totals.net >= 0 ? "positive" : "negative"}
-              hint={totals.net >= 0 ? "In your favour" : "You're behind overall"}
-            />
-            <StatCard
-              label="Collected so far"
-              value={formatMoney(totals.collected, currency)}
-              icon={CircleCheck}
-              tone="positive"
-              hint="Across every payment recorded"
-            />
-            <StatCard
-              label="People"
-              value={String(totals.peopleCount)}
-              icon={Users}
-              tone="muted"
-              hint={`${totals.activeCount} debt${totals.activeCount === 1 ? "" : "s"} still open`}
-            />
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            {[
+              {
+                label: "You owe",
+                value: formatMoney(totals.iOwe, currency),
+                icon: ArrowUpRight,
+                tone: totals.iOwe > 0 ? ("negative" as const) : ("muted" as const),
+                hint: totals.iOwe > 0 ? "Outstanding to others" : "Nothing outstanding",
+              },
+              {
+                label: "Net position",
+                value: formatMoney(totals.net, currency),
+                icon: TrendingUp,
+                tone: totals.net >= 0 ? ("positive" as const) : ("negative" as const),
+                hint: totals.net >= 0 ? "In your favour" : "You're behind overall",
+              },
+              {
+                label: "Collected so far",
+                value: formatMoney(totals.collected, currency),
+                icon: CircleCheck,
+                tone: "positive" as const,
+                hint: "Across every payment recorded",
+              },
+              {
+                label: "People",
+                value: String(totals.peopleCount),
+                icon: Users,
+                tone: "muted" as const,
+                hint: `${totals.activeCount} still open`,
+              },
+            ].map((stat, index) => (
+              <Reveal key={stat.label} delay={index * 60}>
+                <StatCard {...stat} />
+              </Reveal>
+            ))}
           </div>
 
           {overdue.length > 0 && (
-            <section className="space-y-3">
-              <div className="flex items-center gap-2">
-                <h2 className="text-[17px] font-semibold tracking-[-0.02em]">Needs a nudge</h2>
+            <Reveal as="section">
+              <div className="mb-3 flex items-center gap-2">
+                <h2 className="text-title-3">Needs a nudge</h2>
                 <Badge variant="destructive">{overdue.length}</Badge>
               </div>
               <div className="grid gap-3 lg:grid-cols-2">
@@ -150,15 +153,17 @@ export function Dashboard() {
                   />
                 ))}
               </div>
-            </section>
+            </Reveal>
           )}
 
-          <TopPeopleChart debts={debts} currency={currency} />
+          <Reveal>
+            <TopPeopleChart debts={debts} currency={currency} />
+          </Reveal>
 
           {active.length > 0 && (
-            <section className="space-y-3">
-              <div className="flex items-center justify-between gap-3">
-                <h2 className="text-[17px] font-semibold tracking-[-0.02em]">Recently added</h2>
+            <Reveal as="section">
+              <div className="mb-3 flex items-center justify-between gap-3">
+                <h2 className="text-title-3">Recently added</h2>
                 <Button variant="ghost" size="sm" asChild>
                   <Link to="/app/debts">
                     View all <ArrowRight />
@@ -178,22 +183,22 @@ export function Dashboard() {
                   />
                 ))}
               </div>
-            </section>
+            </Reveal>
           )}
 
-          {totals.activeCount === 0 && debts.length > 0 && (
+          {totals.activeCount === 0 && (
             <EmptyState
               icon={CircleCheck}
               title="Everyone's square"
               description={`All ${debts.length} debts are settled. Nothing to chase today.`}
               action={
-                <Button variant="outline" onClick={() => actions.openCreate()}>
+                <Button variant="secondary" onClick={() => actions.openCreate()}>
                   <Plus /> Add a new debt
                 </Button>
               }
             />
           )}
-        </>
+        </div>
       )}
     </div>
   )
@@ -208,20 +213,15 @@ function greeting(): string {
 
 function DashboardSkeleton() {
   return (
-    <div className="space-y-8">
-      <div className="space-y-2">
+    <div className="space-y-7">
+      <div className="space-y-2 pb-6">
         <Skeleton className="h-4 w-32" />
-        <Skeleton className="h-8 w-64" />
+        <Skeleton className="h-9 w-52" />
       </div>
-      <Skeleton className="h-52 w-full rounded-2xl" />
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <Skeleton className="h-56 w-full rounded-xl" />
+      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
         {Array.from({ length: 4 }).map((_, index) => (
-          <Skeleton key={index} className="h-32 rounded-2xl" />
-        ))}
-      </div>
-      <div className="grid gap-3 lg:grid-cols-2">
-        {Array.from({ length: 2 }).map((_, index) => (
-          <Skeleton key={index} className="h-40 rounded-2xl" />
+          <Skeleton key={index} className="h-28 rounded-xl" />
         ))}
       </div>
     </div>

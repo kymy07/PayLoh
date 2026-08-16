@@ -6,14 +6,13 @@ import { Button } from "@/components/ui/button"
 
 export function NotFound() {
   return (
-    <div className="relative flex min-h-dvh flex-col items-center justify-center gap-6 overflow-hidden px-6 text-center">
-      <div className="aurora pointer-events-none absolute inset-0 -z-10" />
+    <div className="flex min-h-dvh flex-col items-center justify-center gap-6 px-6 text-center">
       <Logo />
       <div>
-        <h1 className="text-[clamp(2.5rem,8vw,4rem)] leading-none font-semibold tracking-[-0.04em]">
+        <h1 className="text-[clamp(2.5rem,8vw,4rem)] leading-none font-bold tracking-[-0.035em]">
           404
         </h1>
-        <p className="mt-3 text-[17px] text-balance text-muted-foreground">
+        <p className="text-body mt-3 text-balance text-muted-foreground">
           This page doesn't exist — but your ledger still does.
         </p>
       </div>

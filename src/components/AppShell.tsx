@@ -9,10 +9,12 @@ import {
   Users,
   Wallet,
 } from "lucide-react"
-import { NavLink, Outlet, useNavigate } from "react-router-dom"
+import { useEffect, useRef } from "react"
+import { NavLink, Outlet, useLocation, useNavigate } from "react-router-dom"
 import { toast } from "sonner"
 
 import { Logo, LogoMark } from "@/components/Logo"
+import { PageTitleProvider, usePageTitle } from "@/components/PageTitle"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import {
@@ -42,13 +44,58 @@ const THEMES: { value: Theme; label: string; icon: typeof Sun }[] = [
   { value: "system", label: "System", icon: Monitor },
 ]
 
+/** How far the page scrolls before the large title has fully folded away. */
+const COLLAPSE_DISTANCE = 52
+
 export function AppShell() {
+  return (
+    <PageTitleProvider>
+      <Shell />
+    </PageTitleProvider>
+  )
+}
+
+function Shell() {
   const { user, profile, logout } = useAuth()
   const { theme, setTheme } = useTheme()
   const { openCreate } = useDebtActions()
+  const { title } = usePageTitle()
   const navigate = useNavigate()
+  const location = useLocation()
+  const rootRef = useRef<HTMLDivElement>(null)
 
   const name = profile?.displayName ?? user?.displayName ?? user?.email ?? "Friend"
+
+  // Drive the title collapse from one custom property, written straight to the
+  // DOM. Going through React state here would re-render the whole shell on
+  // every scroll frame for a value only CSS consumes.
+  useEffect(() => {
+    const node = rootRef.current
+    if (!node) return
+
+    let frame = 0
+    const apply = () => {
+      frame = 0
+      const t = Math.min(1, Math.max(0, window.scrollY / COLLAPSE_DISTANCE))
+      node.style.setProperty("--title-collapse", t.toFixed(3))
+    }
+
+    const onScroll = () => {
+      if (!frame) frame = requestAnimationFrame(apply)
+    }
+
+    apply()
+    window.addEventListener("scroll", onScroll, { passive: true })
+    return () => {
+      window.removeEventListener("scroll", onScroll)
+      if (frame) cancelAnimationFrame(frame)
+    }
+  }, [])
+
+  // A new screen starts at its own top, with its large title open.
+  useEffect(() => {
+    window.scrollTo({ top: 0 })
+  }, [location.pathname])
 
   async function handleLogout() {
     try {
@@ -60,15 +107,23 @@ export function AppShell() {
   }
 
   return (
-    <div className="min-h-dvh bg-background">
-      <header className="glass pinned sticky top-0 z-40 border-b">
-        <div className="mx-auto flex h-16 max-w-6xl items-center gap-3 px-4 sm:px-6">
+    <div ref={rootRef} className="min-h-dvh bg-background">
+      <header className="material pinned sticky top-0 z-40 border-b border-[--material-border]">
+        <div className="mx-auto flex h-[52px] max-w-5xl items-center gap-3 px-4 sm:px-6">
           <NavLink to="/app" className="shrink-0" aria-label="Payloh home">
-            <Logo className="hidden sm:inline-flex" />
-            <LogoMark className="sm:hidden" />
+            <Logo className="hidden sm:inline-flex" markClassName="size-7" />
+            <LogoMark className="size-7 sm:hidden" />
           </NavLink>
 
-          <nav className="ml-4 hidden items-center gap-1 md:flex">
+          {/* The page title, arriving as the large one above it folds away. */}
+          <span
+            className="title-inline text-headline pointer-events-none min-w-0 flex-1 truncate text-center md:hidden"
+            aria-hidden
+          >
+            {title}
+          </span>
+
+          <nav className="ml-2 hidden items-center gap-0.5 md:flex">
             {NAV.map(({ to, label, icon: Icon, end }) => (
               <NavLink
                 key={to}
@@ -76,20 +131,20 @@ export function AppShell() {
                 end={end}
                 className={({ isActive }) =>
                   cn(
-                    "flex items-center gap-2 rounded-full px-3.5 py-2 text-[13px] font-medium transition-colors duration-200",
+                    "text-footnote press flex items-center gap-1.5 rounded-lg px-3 py-1.5 font-medium",
                     isActive
-                      ? "bg-accent/50 text-accent-foreground"
-                      : "text-muted-foreground hover:bg-muted hover:text-foreground",
+                      ? "bg-secondary text-foreground"
+                      : "text-muted-foreground hover:text-foreground",
                   )
                 }
               >
-                <Icon className="size-4" />
+                <Icon className="size-[15px]" />
                 {label}
               </NavLink>
             ))}
           </nav>
 
-          <div className="ml-auto flex items-center gap-2">
+          <div className="ml-auto flex shrink-0 items-center gap-2">
             <Button size="sm" onClick={() => openCreate()} className="hidden sm:inline-flex">
               <Plus /> New debt
             </Button>
@@ -97,12 +152,12 @@ export function AppShell() {
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <button
-                  className="rounded-full outline-none focus-visible:ring-[3px] focus-visible:ring-ring/40"
+                  className="press rounded-full outline-none focus-visible:ring-[3px] focus-visible:ring-ring/40"
                   aria-label="Account menu"
                 >
-                  <Avatar className="size-9 border border-border/70">
+                  <Avatar className="size-8 ring-1 ring-border">
                     {user?.photoURL && <AvatarImage src={user.photoURL} alt="" />}
-                    <AvatarFallback className="bg-gradient-to-br from-blush to-pink text-white">
+                    <AvatarFallback className="bg-secondary text-secondary-foreground text-caption">
                       {initialsOf(name)}
                     </AvatarFallback>
                   </Avatar>
@@ -111,8 +166,8 @@ export function AppShell() {
 
               <DropdownMenuContent align="end" className="w-60">
                 <div className="px-3 py-2">
-                  <p className="truncate text-sm font-medium">{name}</p>
-                  <p className="truncate text-xs text-muted-foreground">{user?.email}</p>
+                  <p className="text-subhead truncate font-medium">{name}</p>
+                  <p className="text-caption truncate text-muted-foreground">{user?.email}</p>
                 </div>
                 <DropdownMenuSeparator />
 
@@ -138,23 +193,20 @@ export function AppShell() {
         </div>
       </header>
 
-      {/* Clear the tab bar *and* the home-indicator inset, so the last card in a
-          list is never left sitting underneath the chrome. */}
-      <main className="mx-auto max-w-6xl px-4 pt-8 pb-[calc(7.5rem+env(safe-area-inset-bottom))] sm:px-6 md:pb-16">
+      <main className="mx-auto max-w-5xl px-4 pt-7 pb-[calc(7.5rem+env(safe-area-inset-bottom))] sm:px-6 md:pb-20">
         <Outlet />
       </main>
 
-      {/* Mobile: an iOS-style tab bar plus a floating compose button. */}
       <Button
         size="icon"
         onClick={() => openCreate()}
-        className="pinned fixed right-5 bottom-[calc(6rem+env(safe-area-inset-bottom))] z-40 size-14 shadow-lg shadow-primary/30 md:hidden"
+        className="pinned press fixed right-5 bottom-[calc(6rem+env(safe-area-inset-bottom))] z-40 size-14 shadow-lg shadow-black/15 md:hidden"
         aria-label="New debt"
       >
         <Plus className="size-6" />
       </Button>
 
-      <nav className="glass pinned fixed inset-x-0 bottom-0 z-40 border-t pb-[env(safe-area-inset-bottom)] md:hidden">
+      <nav className="material pinned fixed inset-x-0 bottom-0 z-40 border-t border-[--material-border] pb-[env(safe-area-inset-bottom)] md:hidden">
         <div className="flex items-stretch">
           {NAV.map(({ to, label, icon: Icon, end }) => (
             <NavLink
@@ -163,13 +215,13 @@ export function AppShell() {
               end={end}
               className={({ isActive }) =>
                 cn(
-                  "flex flex-1 flex-col items-center gap-1 py-2.5 text-[10px] font-medium transition-colors",
+                  "press flex flex-1 flex-col items-center gap-1 py-2",
                   isActive ? "text-primary" : "text-muted-foreground",
                 )
               }
             >
-              <Icon className="size-5" />
-              {label}
+              <Icon className="size-[22px]" strokeWidth={2} />
+              <span className="text-caption-2 font-medium">{label}</span>
             </NavLink>
           ))}
         </div>

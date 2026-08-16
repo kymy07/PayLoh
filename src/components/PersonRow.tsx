@@ -16,10 +16,10 @@ export function PersonRow({ person, currency }: { person: Person; currency: stri
   const dueLabel = formatDueLabel(person.nextDue)
 
   return (
-    <Card className="group gap-0 p-0 transition-all duration-300 ease-spring hover:-translate-y-0.5 hover:shadow-md hover:shadow-black/[0.06]">
+    <Card className="group gap-0 overflow-hidden p-0">
       <Link
         to={`/app/people/${encodeURIComponent(person.key)}`}
-        className="flex items-center gap-3 rounded-2xl p-4 outline-none focus-visible:ring-[3px] focus-visible:ring-ring/40 sm:gap-4 sm:p-5"
+        className="row-press flex items-center gap-3 p-4 outline-none focus-visible:ring-[3px] focus-visible:ring-ring/40 sm:gap-4 sm:p-5"
       >
         <PersonAvatar name={person.name} className="size-11 sm:size-12" />
 
@@ -63,7 +63,7 @@ export function PersonRow({ person, currency }: { person: Person; currency: stri
             <Progress
               value={progress}
               className="mt-3 h-1"
-              indicatorClassName="bg-gradient-to-r from-blush to-rose"
+              indicatorClassName="bg-primary"
             />
           )}
         </div>

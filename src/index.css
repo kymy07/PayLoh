@@ -6,6 +6,8 @@
 /* ---------------------------------------------------------------------------
    Payloh palette — taken straight from the reference swatch.
    sand → linen → cream → blush → pink → rose
+   Used as an accent, not as wallpaper: structure stays neutral so one warm
+   colour can carry meaning.
    --------------------------------------------------------------------------- */
 :root {
   --payloh-sand: #c9af87;
@@ -15,73 +17,78 @@
   --payloh-pink: #fa8fae;
   --payloh-rose: #ee7e9c;
 
-  --radius: 0.875rem;
+  --radius: 0.75rem;
 
-  --background: #fcfcf7;
-  --foreground: #2a2420;
+  /* Warm-neutral greys, the way iOS builds its system greys off a hue. */
+  --background: #f7f6f2;
+  --foreground: #1c1a17;
   --card: #ffffff;
-  --card-foreground: #2a2420;
+  --card-foreground: #1c1a17;
   --popover: #ffffff;
-  --popover-foreground: #2a2420;
-  --primary: #ee7e9c;
+  --popover-foreground: #1c1a17;
+  --primary: #d9557a;
   --primary-foreground: #ffffff;
-  --secondary: #eff0dc;
-  --secondary-foreground: #4a4034;
-  --muted: #f4f2ea;
-  --muted-foreground: #8a8071;
-  --accent: #f8c6cd;
-  --accent-foreground: #7a3448;
-  --destructive: #d94a52;
+  --secondary: #efeee8;
+  --secondary-foreground: #38342d;
+  --muted: #f1f0ea;
+  --muted-foreground: #78736a;
+  --accent: #f4f2ec;
+  --accent-foreground: #1c1a17;
+  --destructive: #c8362f;
   --destructive-foreground: #ffffff;
-  --success: #3f8f6d;
+  --success: #2f7d5b;
   --success-foreground: #ffffff;
-  --warning: #c9873a;
+  --warning: #a8681f;
   --warning-foreground: #ffffff;
-  --border: #e9e4d7;
-  --input: #e9e4d7;
-  --ring: #fa8fae;
+  --border: #e3e0d8;
+  --input: #dbd7cd;
+  --ring: #d9557a;
 
-  /* Frosted surfaces — the Apple-style translucent chrome */
-  --glass: rgb(252 252 247 / 0.72);
-  --glass-border: rgb(42 36 32 / 0.07);
+  /* iOS separators are hairlines that sit *inside* a grouped list, inset to
+     line up with the text rather than the leading icon. */
+  --separator: #dedad1;
 
-  /* Chart marks. One series, so one hue — a deeper step of the brand rose that
-     clears 3:1 against the white card. Dark mode picks its own step below
-     rather than flipping this one. Both are validated, not eyeballed. */
+  /* Materials. Only ever chrome — a navigation bar, a tab bar, a sheet.
+     Never a decorative panel. */
+  --material: rgb(247 246 242 / 0.8);
+  --material-border: rgb(28 26 23 / 0.08);
+
   --chart-bar: #d9557a;
-  --chart-grid: #eeeae0;
+  --chart-grid: #e8e5dd;
 }
 
 .dark {
-  --background: #17150f;
-  --foreground: #f5f2e8;
-  --card: #201d16;
-  --card-foreground: #f5f2e8;
-  --popover: #201d16;
-  --popover-foreground: #f5f2e8;
-  --primary: #fa8fae;
-  --primary-foreground: #2c1017;
-  --secondary: #2a251b;
-  --secondary-foreground: #eff0dc;
-  --muted: #26221a;
-  --muted-foreground: #a89d89;
-  --accent: #3b2b2f;
-  --accent-foreground: #f8c6cd;
-  --destructive: #e5686f;
-  --destructive-foreground: #2c1017;
-  --success: #6fc79c;
-  --success-foreground: #0d2019;
-  --warning: #e0a45f;
+  --background: #100f0d;
+  --foreground: #f2f0ea;
+  --card: #1a1917;
+  --card-foreground: #f2f0ea;
+  --popover: #232120;
+  --popover-foreground: #f2f0ea;
+  --primary: #f892ae;
+  --primary-foreground: #2b0e19;
+  --secondary: #262523;
+  --secondary-foreground: #f2f0ea;
+  --muted: #201f1d;
+  --muted-foreground: #9c968b;
+  --accent: #26241f;
+  --accent-foreground: #f2f0ea;
+  --destructive: #ff6961;
+  --destructive-foreground: #2b0e19;
+  --success: #5cc08d;
+  --success-foreground: #082016;
+  --warning: #e5a44e;
   --warning-foreground: #241703;
-  --border: #342e23;
-  --input: #342e23;
-  --ring: #fa8fae;
+  --border: #2c2a27;
+  --input: #38352f;
+  --ring: #f892ae;
 
-  --glass: rgb(23 21 15 / 0.72);
-  --glass-border: rgb(245 242 232 / 0.09);
+  --separator: #2e2c28;
+
+  --material: rgb(24 23 21 / 0.8);
+  --material-border: rgb(242 240 234 / 0.1);
 
   --chart-bar: #d65c84;
-  --chart-grid: #2c2820;
+  --chart-grid: #292723;
 }
 
 @theme inline {
@@ -108,6 +115,7 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
+  --color-separator: var(--separator);
 
   --color-sand: var(--payloh-sand);
   --color-linen: var(--payloh-linen);
@@ -116,19 +124,83 @@
   --color-pink: var(--payloh-pink);
   --color-rose: var(--payloh-rose);
 
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: 0.5rem;
+  --radius-md: 0.625rem;
   --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 6px);
-  --radius-2xl: calc(var(--radius) + 14px);
+  --radius-xl: 1rem;
+  --radius-2xl: 1.25rem;
 
-  /* Apple leans on one humanist grotesque for everything. */
   --font-sans:
-    -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI Variable Display",
-    "Segoe UI", Inter, system-ui, sans-serif;
+    -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display",
+    "Segoe UI Variable Text", "Segoe UI", Inter, system-ui, sans-serif;
   --font-mono: ui-monospace, "SF Mono", "Cascadia Code", "Roboto Mono", monospace;
 
+  /* The one easing curve iOS uses for almost everything. */
+  --ease-ios: cubic-bezier(0.25, 0.1, 0.25, 1);
   --ease-spring: cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+/* ---------------------------------------------------------------------------
+   The iOS type scale, verbatim. Sizes and line-heights are fixed pairs, and
+   tracking tightens as the size grows — that relationship is most of why
+   Apple's text looks like Apple's text.
+   --------------------------------------------------------------------------- */
+@utility text-large-title {
+  font-size: 2.125rem;
+  line-height: 2.5625rem;
+  letter-spacing: -0.026em;
+  font-weight: 700;
+}
+@utility text-title-1 {
+  font-size: 1.75rem;
+  line-height: 2.125rem;
+  letter-spacing: -0.023em;
+  font-weight: 700;
+}
+@utility text-title-2 {
+  font-size: 1.375rem;
+  line-height: 1.75rem;
+  letter-spacing: -0.019em;
+  font-weight: 600;
+}
+@utility text-title-3 {
+  font-size: 1.25rem;
+  line-height: 1.5625rem;
+  letter-spacing: -0.014em;
+  font-weight: 600;
+}
+@utility text-headline {
+  font-size: 1.0625rem;
+  line-height: 1.375rem;
+  letter-spacing: -0.011em;
+  font-weight: 600;
+}
+@utility text-body {
+  font-size: 1.0625rem;
+  line-height: 1.375rem;
+  letter-spacing: -0.011em;
+}
+@utility text-callout {
+  font-size: 1rem;
+  line-height: 1.3125rem;
+  letter-spacing: -0.007em;
+}
+@utility text-subhead {
+  font-size: 0.9375rem;
+  line-height: 1.25rem;
+  letter-spacing: -0.002em;
+}
+@utility text-footnote {
+  font-size: 0.8125rem;
+  line-height: 1.125rem;
+}
+@utility text-caption {
+  font-size: 0.75rem;
+  line-height: 1rem;
+}
+@utility text-caption-2 {
+  font-size: 0.6875rem;
+  line-height: 0.8125rem;
 }
 
 @layer base {
@@ -138,65 +210,156 @@
 
   html {
     -webkit-tap-highlight-color: transparent;
+    -webkit-text-size-adjust: 100%;
   }
 
   body {
     @apply bg-background text-foreground font-sans antialiased;
-    font-feature-settings: "cv11", "ss01";
+    font-synthesis-weight: none;
     text-rendering: optimizeLegibility;
-  }
-
-  /* Apple sets big type tight and small type loose. */
-  h1,
-  h2,
-  h3 {
-    @apply font-semibold tracking-[-0.022em];
   }
 
   ::selection {
     background-color: var(--payloh-blush);
-    color: #2a2420;
+    color: #1c1a17;
   }
 
   :focus-visible {
     @apply outline-ring outline-2 outline-offset-2;
   }
 
-  /* Numbers should never jitter while a balance animates. */
+  /* Columns of figures must not shuffle width as they update. Display numbers
+     deliberately opt out — tabular digits look loose at large sizes. */
   .tabular {
     font-variant-numeric: tabular-nums;
   }
 }
 
 @layer components {
-  /* Translucent chrome used by the header and the mobile tab bar. */
-  .glass {
-    background-color: var(--glass);
-    backdrop-filter: saturate(180%) blur(20px);
-    -webkit-backdrop-filter: saturate(180%) blur(20px);
-    border-color: var(--glass-border);
+  /* ---- Materials ---------------------------------------------------------
+     A translucent surface is chrome: it exists to let content scroll *under*
+     something fixed. It is never a decorative panel, never a card. */
+  .material {
+    background-color: var(--material);
+    backdrop-filter: saturate(180%) blur(24px);
+    -webkit-backdrop-filter: saturate(180%) blur(24px);
   }
 
   /* iOS Safari lets a `position: fixed` element drift out of place during
-     momentum scrolling when it also carries a backdrop-filter — the bar ends up
-     stranded mid-page. Promoting it to its own compositing layer pins it. */
+     momentum scrolling when it also carries a backdrop-filter. Promoting it to
+     its own compositing layer pins it. */
   .pinned {
     transform: translateZ(0);
-    will-change: transform;
     -webkit-transform: translateZ(0);
+    will-change: transform;
   }
 
-  /* The warm wash that sits behind marketing + auth screens. */
-  .aurora {
-    background:
-      radial-gradient(60rem 40rem at 12% -10%, var(--payloh-blush) 0%, transparent 55%),
-      radial-gradient(50rem 34rem at 92% 4%, var(--payloh-cream) 0%, transparent 60%),
-      radial-gradient(46rem 40rem at 74% 96%, var(--payloh-linen) 0%, transparent 58%);
-    opacity: 0.7;
+  /* ---- Grouped lists -----------------------------------------------------
+     The inset grouped table view: one rounded container per group, rows
+     divided by hairlines that start at the text, not at the container edge.
+     This is the shape almost every screen in iOS is built from. */
+  .list-group {
+    background-color: var(--card);
+    border-radius: 0.75rem;
+    overflow: hidden;
+    border: 1px solid var(--border);
   }
 
-  .dark .aurora {
-    opacity: 0.16;
+  .list-row + .list-row {
+    border-top: 1px solid var(--separator);
+  }
+
+  /* Inset the hairline to line up with the row's text rather than its icon. */
+  .list-row-inset + .list-row-inset {
+    border-top: 1px solid var(--separator);
+    border-image: linear-gradient(
+        to right,
+        transparent 0,
+        transparent var(--row-inset, 3.75rem),
+        var(--separator) var(--row-inset, 3.75rem)
+      )
+      1;
+  }
+
+  /* A pressed row dims rather than lifts — nothing in iOS floats on hover. */
+  .row-press {
+    transition: background-color 150ms var(--ease-ios);
+  }
+  .row-press:active {
+    background-color: var(--muted);
+  }
+  @media (hover: hover) {
+    .row-press:hover {
+      background-color: var(--muted);
+    }
+  }
+
+  /* Section header above a grouped list: small, uppercase, quiet. */
+  .list-header {
+    font-size: 0.8125rem;
+    line-height: 1.125rem;
+    color: var(--muted-foreground);
+    padding-inline: 1rem;
+    padding-bottom: 0.4375rem;
+  }
+
+  /* ---- Motion ------------------------------------------------------------
+     Apple moves a great deal, but always to explain something: where a thing
+     came from, that it is arriving, that you touched it. Springs, fast, and
+     interruptible. Nothing loops, nothing decorates. */
+
+  /* Content arrives from slightly below and behind, the way a sheet does. */
+  .reveal {
+    opacity: 0;
+    transform: translate3d(0, 1.5rem, 0) scale(0.985);
+  }
+
+  .reveal-in {
+    animation: reveal-up 0.7s var(--ease-spring) forwards;
+    animation-delay: var(--reveal-delay, 0ms);
+  }
+
+  @keyframes reveal-up {
+    to {
+      opacity: 1;
+      transform: translate3d(0, 0, 0) scale(1);
+    }
+  }
+
+  /* Tap feedback: press *into* the surface. Never a hover lift. */
+  .press {
+    transition:
+      transform 200ms var(--ease-spring),
+      background-color 150ms var(--ease-ios);
+  }
+  .press:active {
+    transform: scale(0.975);
+  }
+
+  /* The large title that shrinks into the navigation bar as you scroll —
+     driven by a --title-collapse custom property the shell keeps updated. */
+  .title-collapse {
+    transform: scale(calc(1 - 0.28 * var(--title-collapse, 0)))
+      translate3d(0, calc(-0.5rem * var(--title-collapse, 0)), 0);
+    transform-origin: left center;
+    opacity: calc(1 - var(--title-collapse, 0));
+    will-change: transform, opacity;
+  }
+
+  .title-inline {
+    opacity: var(--title-collapse, 0);
+    transform: translate3d(0, calc(0.5rem * (1 - var(--title-collapse, 0))), 0);
+    transition: none;
+    will-change: transform, opacity;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  .reveal-in {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
   }
 }
 

@@ -2,7 +2,9 @@ import { Plus, Search, SearchX, Users, X } from "lucide-react"
 import { useMemo, useState } from "react"
 
 import { EmptyState } from "@/components/EmptyState"
+import { LargeTitle } from "@/components/PageTitle"
 import { PersonRow } from "@/components/PersonRow"
+import { Reveal } from "@/components/Reveal"
 import { StatCard } from "@/components/StatCard"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -60,17 +62,16 @@ export function People() {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-wrap items-end justify-between gap-4">
-        <div>
-          <h1 className="text-[28px] leading-tight font-semibold tracking-[-0.03em]">People</h1>
-          <p className="mt-1 text-sm text-muted-foreground">
-            Everyone in your ledger, and where each of you stands.
-          </p>
-        </div>
-        <Button onClick={() => actions.openCreate()} className="hidden sm:inline-flex">
-          <Plus /> New debt
-        </Button>
-      </div>
+      <LargeTitle
+        title="People"
+        description="Everyone in your ledger, and where each of you stands."
+        className="pb-0"
+        action={
+          <Button onClick={() => actions.openCreate()} className="hidden sm:inline-flex">
+            <Plus /> New debt
+          </Button>
+        }
+      />
 
       {people.length === 0 ? (
         <EmptyState
@@ -161,8 +162,10 @@ export function People() {
             />
           ) : (
             <div className="space-y-3">
-              {visible.map((person) => (
-                <PersonRow key={person.key} person={person} currency={currency} />
+              {visible.map((person, index) => (
+                <Reveal key={person.key} delay={Math.min(index, 6) * 45}>
+                  <PersonRow person={person} currency={currency} />
+                </Reveal>
               ))}
             </div>
           )}

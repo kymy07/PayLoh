@@ -54,7 +54,9 @@ export function DebtCard({
   return (
     <Card
       className={cn(
-        "group gap-0 overflow-hidden p-0 transition-all duration-300 ease-spring hover:-translate-y-0.5 hover:shadow-md hover:shadow-black/[0.06]",
+        // Nothing floats on hover — the card stays put and the row it contains
+        // responds to the press instead.
+        "group gap-0 overflow-hidden p-0",
         status === "settled" && "opacity-70 hover:opacity-100",
       )}
     >
@@ -125,7 +127,7 @@ export function DebtCard({
             <Progress
               value={progress}
               className="mt-3 h-1"
-              indicatorClassName="bg-gradient-to-r from-blush to-rose"
+              indicatorClassName="bg-primary"
             />
           )}
         </div>

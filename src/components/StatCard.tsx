@@ -13,10 +13,10 @@ interface StatCardProps {
 }
 
 const TONES = {
-  default: "bg-primary/12 text-primary",
-  positive: "bg-success/12 text-success",
-  negative: "bg-destructive/12 text-destructive",
-  muted: "bg-muted text-muted-foreground",
+  default: "text-primary",
+  positive: "text-success",
+  negative: "text-destructive",
+  muted: "text-muted-foreground",
 } as const
 
 export function StatCard({
@@ -28,17 +28,15 @@ export function StatCard({
   className,
 }: StatCardProps) {
   return (
-    <Card className={cn("gap-0 p-5", className)}>
-      <div className="flex items-start justify-between gap-3">
-        <p className="text-[13px] font-medium text-muted-foreground">{label}</p>
-        <span className={cn("grid size-8 shrink-0 place-items-center rounded-full", TONES[tone])}>
-          <Icon className="size-4" />
-        </span>
+    <Card className={cn("gap-0 p-4", className)}>
+      <div className="flex items-center justify-between gap-3">
+        <p className="text-footnote text-muted-foreground">{label}</p>
+        <Icon className={cn("size-4 shrink-0", TONES[tone])} strokeWidth={1.75} />
       </div>
-      {/* Proportional figures — tabular-nums makes a standalone display number
-          look loose. Tabular is reserved for the columns in the debt list. */}
-      <p className="mt-3 text-[28px] leading-none font-semibold tracking-[-0.03em]">{value}</p>
-      {hint && <p className="mt-2 text-xs text-muted-foreground">{hint}</p>}
+      {/* Proportional figures — tabular digits look loose at display sizes and
+          these tiles do not need to align vertically with each other. */}
+      <p className="text-title-2 mt-2.5">{value}</p>
+      {hint && <p className="text-caption mt-1.5 text-muted-foreground">{hint}</p>}
     </Card>
   )
 }

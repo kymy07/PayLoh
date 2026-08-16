@@ -3,6 +3,8 @@ import { useMemo, useState } from "react"
 
 import { DebtCard } from "@/components/DebtCard"
 import { EmptyState } from "@/components/EmptyState"
+import { LargeTitle } from "@/components/PageTitle"
+import { Reveal } from "@/components/Reveal"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import {
@@ -94,18 +96,18 @@ export function Debts() {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-wrap items-end justify-between gap-4">
-        <div>
-          <h1 className="text-[28px] leading-tight font-semibold tracking-[-0.03em]">Debts</h1>
-          <p className="mt-1 text-sm text-muted-foreground">
-            {visible.length} {visible.length === 1 ? "record" : "records"}
-            {outstanding > 0 && ` · ${formatMoney(outstanding, currency)} outstanding`}
-          </p>
-        </div>
-        <Button onClick={() => actions.openCreate()} className="hidden sm:inline-flex">
-          <Plus /> New debt
-        </Button>
-      </div>
+      <LargeTitle
+        title="Debts"
+        description={`${visible.length} ${visible.length === 1 ? "record" : "records"}${
+          outstanding > 0 ? ` · ${formatMoney(outstanding, currency)} outstanding` : ""
+        }`}
+        className="pb-0"
+        action={
+          <Button onClick={() => actions.openCreate()} className="hidden sm:inline-flex">
+            <Plus /> New debt
+          </Button>
+        }
+      />
 
       {/* Filters sit in one row above the list. */}
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
@@ -187,16 +189,17 @@ export function Debts() {
         )
       ) : (
         <div className="grid gap-3 lg:grid-cols-2">
-          {visible.map((debt) => (
-            <DebtCard
-              key={debt.id}
-              debt={debt}
-              onRecordPayment={actions.openPayment}
-              onSettle={actions.markSettled}
-              onEdit={actions.openEdit}
-              onRemind={actions.openReminder}
-              onDelete={actions.confirmDelete}
-            />
+          {visible.map((debt, index) => (
+            <Reveal key={debt.id} delay={Math.min(index, 6) * 45}>
+              <DebtCard
+                debt={debt}
+                onRecordPayment={actions.openPayment}
+                onSettle={actions.markSettled}
+                onEdit={actions.openEdit}
+                onRemind={actions.openReminder}
+                onDelete={actions.confirmDelete}
+              />
+            </Reveal>
           ))}
         </div>
       )}
