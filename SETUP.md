@@ -62,38 +62,34 @@ Two options — GitHub Pages is already wired up, Firebase Hosting is one comman
 #### GitHub Pages → `kymy07.github.io/PayLoh/`
 
 A Vite app can't be served straight from the repo: the source `index.html`
-points at `/src/main.tsx`, which no browser can run. `.github/workflows/deploy-pages.yml`
-builds it properly and publishes `dist/`. Three things have to be set once:
+points at `/src/main.tsx`, which no browser can run — that's the blank page.
+`.github/workflows/deploy-pages.yml` builds it properly and publishes `dist/`.
 
-**a. Point Pages at the workflow**
+Every push to `main` redeploys, and it's self-configuring: the workflow's
+`configure-pages` step sets the repo's Pages source to **GitHub Actions** on its
+own, so leaving that setting on "deploy from a branch" no longer breaks the site.
 
-Repo **Settings → Pages → Build and deployment → Source: GitHub Actions**
-(not "Deploy from a branch" — that's what caused the blank page).
+Two things still have to be set by hand, once each.
 
-**b. Add the three private keys as repo secrets**
+**a. The three account-specific config values**, under repo **Settings → Secrets
+and variables → Actions → New repository secret**:
 
-Repo **Settings → Secrets and variables → Actions → New repository secret**:
-
-| Name | Value |
+| Name | From `firebaseConfig` |
 |---|---|
-| `VITE_FIREBASE_API_KEY` | from the console |
-| `VITE_FIREBASE_MESSAGING_SENDER_ID` | from the console |
-| `VITE_FIREBASE_APP_ID` | from the console |
+| `VITE_FIREBASE_API_KEY` | `apiKey` |
+| `VITE_FIREBASE_MESSAGING_SENDER_ID` | `messagingSenderId` |
+| `VITE_FIREBASE_APP_ID` | `appId` |
 
-The other four are already in the workflow — they're public identifiers that
-appear in every Firebase web bundle. What protects the data is
-`database.rules.json`, not hiding them.
+They can't be read from `.env.local` — that file is gitignored and never reaches
+the runner, which is exactly what keeps it out of the repo. The other four
+values are fixed project identifiers and already sit in the workflow.
 
-Without these secrets the site still builds and loads; it just shows the
+Until the secrets exist the site still builds and loads; it just shows the
 "Connect Firebase to continue" notice instead of signing anyone in.
 
-**c. Authorise the domain in Firebase**
-
-**Authentication → Settings → Authorised domains → Add domain** →
-`kymy07.github.io`. Sign-in fails with `auth/unauthorized-domain` until this is done.
-
-Every push to `main` redeploys. You can also trigger it by hand from the
-**Actions** tab.
+**b. The domain**, under Firebase **Authentication → Settings → Authorised
+domains → Add domain** → `kymy07.github.io`. Sign-in fails with
+`auth/unauthorized-domain` until it's there.
 
 #### Firebase Hosting → `payloh-website.web.app`
 

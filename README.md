@@ -158,14 +158,17 @@ from the Realtime Database **Rules** tab.
 ### GitHub Pages
 
 Every push to `main` triggers `.github/workflows/deploy-pages.yml`, which builds
-`dist/` and publishes it. Three one-time settings:
+`dist/` and publishes it. Its `configure-pages` step also sets the repo's Pages
+source to **GitHub Actions**, so the site can't silently fall back to serving
+unbuilt source.
 
-1. **Settings → Pages → Source: GitHub Actions** — not "deploy from a branch",
-   which would serve the raw source and render a blank page
-2. **Settings → Secrets and variables → Actions** — add `VITE_FIREBASE_API_KEY`,
-   `VITE_FIREBASE_MESSAGING_SENDER_ID`, `VITE_FIREBASE_APP_ID`
-3. **Firebase → Authentication → Settings → Authorised domains** — add
-   `kymy07.github.io`, or sign-in fails with `auth/unauthorized-domain`
+Two one-time settings remain:
+
+1. **Settings → Secrets and variables → Actions** — add `VITE_FIREBASE_API_KEY`,
+   `VITE_FIREBASE_MESSAGING_SENDER_ID`, `VITE_FIREBASE_APP_ID`. `.env.local` is
+   gitignored, so the runner can't read it; that's the point.
+2. **Firebase → Authentication → Settings → Authorised domains** — add
+   `kymy07.github.io`, or sign-in fails with `auth/unauthorized-domain`.
 
 ```bash
 git add -A
