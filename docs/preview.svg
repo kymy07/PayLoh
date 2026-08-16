@@ -1,0 +1,102 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" width="1200" height="675" role="img" aria-label="Payloh dashboard — hero balance, stat tiles and a debt list">
+  <defs>
+    <linearGradient id="mark" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#F8C6CD"/><stop offset=".55" stop-color="#FA8FAE"/><stop offset="1" stop-color="#EE7E9C"/>
+    </linearGradient>
+    <linearGradient id="bar" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#F8C6CD"/><stop offset="1" stop-color="#EE7E9C"/>
+    </linearGradient>
+    <radialGradient id="a1" cx=".12" cy="0" r=".7"><stop offset="0" stop-color="#F8C6CD" stop-opacity=".85"/><stop offset="1" stop-color="#F8C6CD" stop-opacity="0"/></radialGradient>
+    <radialGradient id="a2" cx=".9" cy=".05" r=".6"><stop offset="0" stop-color="#EFF0DC" stop-opacity=".95"/><stop offset="1" stop-color="#EFF0DC" stop-opacity="0"/></radialGradient>
+    <radialGradient id="a3" cx=".75" cy="1" r=".65"><stop offset="0" stop-color="#E0CDB1" stop-opacity=".8"/><stop offset="1" stop-color="#E0CDB1" stop-opacity="0"/></radialGradient>
+    <filter id="lift" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="14" stdDeviation="22" flood-color="#2A2420" flood-opacity=".13"/>
+    </filter>
+    <style>
+      .s { font-family: -apple-system, "Segoe UI", Inter, Roboto, sans-serif; }
+      .lbl  { font-size: 15px; fill: #8A8071; }
+      .name { font-size: 19px; font-weight: 600; fill: #2A2420; }
+      .note { font-size: 14px; fill: #8A8071; }
+      .amt  { font-size: 21px; font-weight: 600; fill: #2A2420; }
+      .tile { font-size: 26px; font-weight: 600; fill: #2A2420; }
+      .chip { font-size: 13px; font-weight: 500; }
+    </style>
+  </defs>
+
+  <rect width="1200" height="675" fill="#FCFCF7"/>
+  <rect width="1200" height="675" fill="url(#a1)"/>
+  <rect width="1200" height="675" fill="url(#a2)"/>
+  <rect width="1200" height="675" fill="url(#a3)"/>
+
+  <g filter="url(#lift)">
+    <rect x="80" y="56" width="1040" height="580" rx="30" fill="#FFFFFF"/>
+  </g>
+
+  <!-- window chrome -->
+  <rect x="80" y="56" width="1040" height="60" rx="30" fill="#FCFCF7"/>
+  <rect x="80" y="96" width="1040" height="20" fill="#FCFCF7"/>
+  <line x1="80" y1="116" x2="1120" y2="116" stroke="#E9E4D7" stroke-width="1"/>
+  <rect x="112" y="74" width="24" height="24" rx="7" fill="url(#mark)"/>
+  <path d="M120.5 92.5V80h4.6c2.6 0 4.4 1.7 4.4 4.2s-1.8 4.3-4.4 4.3h-2v4Zm2.6-6.2h1.8c1.2 0 2-.7 2-1.8s-.8-1.7-2-1.7h-1.8Z" fill="#FFFDF8"/>
+  <text class="s" x="146" y="93" font-size="15" font-weight="600" fill="#2A2420">Payloh</text>
+  <circle cx="1042" cy="86" r="5" fill="#E0CDB1"/><circle cx="1062" cy="86" r="5" fill="#F8C6CD"/><circle cx="1082" cy="86" r="5" fill="#FA8FAE"/>
+
+  <!-- hero figure -->
+  <text class="s lbl" x="128" y="168">Owed to you</text>
+  <text class="s" x="128" y="222" font-size="52" font-weight="600" fill="#2A2420" letter-spacing="-1.6">RM 1,240.50</text>
+
+  <rect x="128" y="244" width="132" height="26" rx="13" fill="#D94A52" fill-opacity=".12"/>
+  <text class="s chip" x="146" y="262" fill="#D94A52">2 overdue</text>
+  <rect x="272" y="244" width="132" height="26" rx="13" fill="#EFF0DC"/>
+  <text class="s chip" x="290" y="262" fill="#4A4034">7 active debts</text>
+  <rect x="416" y="244" width="122" height="26" rx="13" fill="#3F8F6D" fill-opacity=".12"/>
+  <text class="s chip" x="434" y="262" fill="#3F8F6D">4 settled</text>
+
+  <!-- stat tiles -->
+  <g>
+    <rect x="128" y="298" width="228" height="104" rx="18" fill="#FFFFFF" stroke="#E9E4D7"/>
+    <text class="s note" x="152" y="328">You owe</text>
+    <text class="s tile" x="152" y="368">RM 180.00</text>
+    <circle cx="326" cy="322" r="15" fill="#D94A52" fill-opacity=".12"/>
+
+    <rect x="372" y="298" width="228" height="104" rx="18" fill="#FFFFFF" stroke="#E9E4D7"/>
+    <text class="s note" x="396" y="328">Net position</text>
+    <text class="s tile" x="396" y="368">RM 1,060.50</text>
+    <circle cx="570" cy="322" r="15" fill="#3F8F6D" fill-opacity=".12"/>
+
+    <rect x="616" y="298" width="228" height="104" rx="18" fill="#FFFFFF" stroke="#E9E4D7"/>
+    <text class="s note" x="640" y="328">Collected</text>
+    <text class="s tile" x="640" y="368">RM 615.00</text>
+    <circle cx="814" cy="322" r="15" fill="#3F8F6D" fill-opacity=".12"/>
+
+    <rect x="860" y="298" width="212" height="104" rx="18" fill="#FFFFFF" stroke="#E9E4D7"/>
+    <text class="s note" x="884" y="328">People</text>
+    <text class="s tile" x="884" y="368">9</text>
+    <circle cx="1042" cy="322" r="15" fill="#F4F2EA"/>
+  </g>
+
+  <!-- debt rows -->
+  <g>
+    <rect x="128" y="432" width="944" height="60" rx="18" fill="#FFFFFF" stroke="#E9E4D7"/>
+    <circle cx="166" cy="462" r="19" fill="#E0CDB1"/>
+    <text class="s" x="166" y="468" font-size="14" font-weight="600" fill="#5F4A2C" text-anchor="middle">AI</text>
+    <text class="s name" x="200" y="457">Aiman</text>
+    <text class="s note" x="200" y="477">Concert ticket · due in 3 days</text>
+    <text class="s amt" x="1048" y="469" text-anchor="end">RM 120.00</text>
+
+    <rect x="128" y="504" width="944" height="60" rx="18" fill="#FFFFFF" stroke="#E9E4D7"/>
+    <circle cx="166" cy="534" r="19" fill="#F8C6CD"/>
+    <text class="s" x="166" y="540" font-size="14" font-weight="600" fill="#7A3448" text-anchor="middle">SR</text>
+    <text class="s name" x="200" y="529">Sofea Rahman</text>
+    <text class="s note" x="200" y="549">Dinner, split three ways · 62% paid</text>
+    <rect x="200" y="554" width="300" height="4" rx="2" fill="#F4F2EA"/>
+    <rect x="200" y="554" width="186" height="4" rx="2" fill="url(#bar)"/>
+    <text class="s amt" x="1048" y="541" text-anchor="end">RM 45.50</text>
+
+    <rect x="128" y="576" width="944" height="36" rx="18" fill="#FCFCF7" stroke="#E9E4D7"/>
+    <circle cx="166" cy="594" r="11" fill="#EFF0DC"/>
+    <path d="m161.5 594 3 3 6-6" stroke="#3F8F6D" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <text class="s" x="188" y="599" font-size="14" fill="#8A8071">Danish · petrol money — settled</text>
+    <text class="s" x="1048" y="599" font-size="14" fill="#8A8071" text-anchor="end" text-decoration="line-through">RM 60.00</text>
+  </g>
+</svg>
