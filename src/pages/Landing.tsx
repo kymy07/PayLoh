@@ -60,7 +60,7 @@ export function Landing() {
   return (
     <div className="min-h-dvh bg-background">
       <header className="material pinned sticky top-0 z-40 border-b border-[--material-border]">
-        <div className="mx-auto flex h-[52px] max-w-5xl items-center justify-between px-4 sm:px-6">
+        <div className="mx-auto flex h-[52px] max-w-6xl items-center justify-between px-4 sm:px-6">
           <Logo markClassName="size-7" />
           <div className="flex items-center gap-1.5">
             {user ? (
@@ -83,10 +83,11 @@ export function Landing() {
         </div>
       </header>
 
-      {/* Hero */}
-      <section className="mx-auto max-w-3xl px-5 pt-20 pb-14 text-center sm:pt-28">
+      {/* Hero. The reference sets a compact line of type against one very large
+          visual, so the interface is the thing you actually look at. */}
+      <section className="mx-auto max-w-3xl px-5 pt-16 pb-10 text-center sm:pt-20">
         <Reveal>
-          <h1 className="text-[clamp(2.5rem,7.5vw,4rem)] leading-[1.04] font-bold tracking-[-0.035em] text-balance">
+          <h1 className="text-[clamp(2.25rem,6vw,3.5rem)] leading-[1.05] font-bold tracking-[-0.035em] text-balance">
             Keep track of who owes you.
             <br />
             <span className="text-muted-foreground">Without the awkward.</span>
@@ -94,14 +95,7 @@ export function Landing() {
         </Reveal>
 
         <Reveal delay={90}>
-          <p className="text-body mx-auto mt-6 max-w-lg text-balance text-muted-foreground sm:text-[1.1875rem] sm:leading-[1.6rem]">
-            A quiet ledger for the money that moves between friends. Log it, watch it come back
-            in instalments, and let Payloh write the reminder.
-          </p>
-        </Reveal>
-
-        <Reveal delay={180}>
-          <div className="mt-9 flex flex-col items-center justify-center gap-2.5 sm:flex-row">
+          <div className="mt-7 flex flex-col items-center justify-center gap-2.5 sm:flex-row">
             <Button size="lg" asChild className="w-full sm:w-auto">
               <Link to={user ? "/app" : "/signup"}>
                 {user ? "Open your ledger" : "Start tracking — it's free"}
@@ -111,22 +105,25 @@ export function Landing() {
               <Link to="/login">I already have an account</Link>
             </Button>
           </div>
-          <p className="text-footnote mt-4 text-muted-foreground">
-            About thirty seconds. No card, no catch.
-          </p>
         </Reveal>
       </section>
 
-      {/* The interface, running */}
-      <section className="mx-auto max-w-3xl px-5 pb-24">
+      {/* The interface, running — the page's centrepiece. */}
+      <section className="mx-auto max-w-6xl px-4 pb-16 sm:px-6 sm:pb-24">
         <Reveal delay={120}>
           <LiveDemo />
+        </Reveal>
+        <Reveal delay={220}>
+          <p className="text-subhead mx-auto mt-8 max-w-md text-center text-balance text-muted-foreground">
+            A quiet ledger for the money that moves between friends. Log it, watch it come back
+            in instalments, and let Payloh write the reminder.
+          </p>
         </Reveal>
       </section>
 
       {/* Features */}
       <section className="border-t border-border py-24">
-        <div className="mx-auto max-w-5xl px-5 sm:px-6">
+        <div className="mx-auto max-w-6xl px-5 sm:px-6">
           <Reveal className="mx-auto max-w-xl text-center">
             <h2 className="text-[clamp(1.75rem,4vw,2.5rem)] leading-[1.1] font-bold tracking-[-0.028em] text-balance">
               Small app. Serious about the details.

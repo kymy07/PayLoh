@@ -49,24 +49,24 @@ export function LiveDemo() {
   const outstanding = rows.reduce((sum, r) => sum + (r.amount - r.paid), 0)
 
   return (
-    <div className="rounded-[1.75rem] border border-border bg-card p-2 shadow-[0_24px_70px_-24px_rgb(28_26_23/0.28)]">
-      <div className="overflow-hidden rounded-[1.375rem] bg-background">
-        <div className="flex items-center gap-2 border-b border-separator px-4 py-3">
-          <LogoMark className="size-5" />
-          <span className="text-footnote font-semibold">Payloh</span>
-          <span className="text-caption-2 ml-auto text-muted-foreground">Dashboard</span>
+    <div className="rounded-[2rem] border border-border bg-card p-2.5 shadow-[0_40px_100px_-32px_rgb(28_26_23/0.3)]">
+      <div className="overflow-hidden rounded-[1.5rem] bg-background">
+        <div className="flex items-center gap-2.5 border-b border-separator px-5 py-3.5 sm:px-7">
+          <LogoMark className="size-6" />
+          <span className="text-subhead font-semibold">Payloh</span>
+          <span className="text-caption ml-auto text-muted-foreground">Dashboard</span>
         </div>
 
-        <div className="p-5 sm:p-6">
-          <p className="text-footnote text-muted-foreground">Owed to you</p>
+        <div className="p-6 sm:p-10">
+          <p className="text-subhead text-muted-foreground">Owed to you</p>
           <AnimatedNumber
             value={outstanding}
             format={money}
             durationMs={900}
-            className="mt-1 block text-[clamp(2rem,6vw,2.75rem)] leading-none font-bold tracking-[-0.03em]"
+            className="mt-2 block text-[clamp(2.75rem,8vw,4.5rem)] leading-none font-bold tracking-[-0.035em]"
           />
 
-          <div className="mt-5 overflow-hidden rounded-xl border border-border">
+          <div className="mt-7 overflow-hidden rounded-2xl border border-border sm:mt-9">
             {rows.map((row, index) => {
               const left = row.amount - row.paid
               const done = left <= 0.005
@@ -77,14 +77,14 @@ export function LiveDemo() {
                 <div
                   key={row.name}
                   className={cn(
-                    "flex items-center gap-3 bg-card px-3.5 py-3 transition-colors duration-700",
+                    "flex items-center gap-3.5 bg-card px-4 py-4 transition-colors duration-700 sm:px-6 sm:py-5",
                     index > 0 && "border-t border-separator",
                     justSettled && "bg-success/8",
                   )}
                 >
                   <span
                     className={cn(
-                      "text-caption grid size-9 shrink-0 place-items-center rounded-full font-semibold transition-all duration-500",
+                      "text-footnote grid size-11 shrink-0 place-items-center rounded-full font-semibold transition-all duration-500 sm:size-12",
                       done
                         ? "bg-success/12 text-success"
                         : index === 0
@@ -92,14 +92,14 @@ export function LiveDemo() {
                           : "bg-blush text-[#7a3448]",
                     )}
                   >
-                    {done ? <Check className="size-4" strokeWidth={2.5} /> : row.initials}
+                    {done ? <Check className="size-5" strokeWidth={2.5} /> : row.initials}
                   </span>
 
                   <div className="min-w-0 flex-1">
-                    <p className="text-subhead truncate font-medium">{row.name}</p>
-                    <p className="text-caption truncate text-muted-foreground">{row.note}</p>
+                    <p className="text-body truncate font-semibold">{row.name}</p>
+                    <p className="text-subhead truncate text-muted-foreground">{row.note}</p>
                     {!done && row.paid > 0 && (
-                      <div className="mt-1.5 h-[3px] w-full overflow-hidden rounded-full bg-muted">
+                      <div className="mt-2 h-1 w-full overflow-hidden rounded-full bg-muted">
                         <div
                           className="h-full rounded-full bg-primary transition-[width] duration-[900ms] ease-[cubic-bezier(0.32,0.72,0,1)]"
                           style={{ width: `${progress}%` }}
@@ -110,7 +110,7 @@ export function LiveDemo() {
 
                   <p
                     className={cn(
-                      "tabular text-subhead shrink-0 font-semibold transition-colors duration-500",
+                      "tabular text-body shrink-0 font-semibold transition-colors duration-500 sm:text-[1.1875rem]",
                       done && "text-muted-foreground line-through",
                     )}
                   >
@@ -121,7 +121,7 @@ export function LiveDemo() {
             })}
           </div>
 
-          <p className="text-caption mt-3 flex items-center gap-1.5 text-muted-foreground">
+          <p className="text-subhead mt-4 flex items-center gap-2 text-muted-foreground">
             <span
               className={cn(
                 "size-1.5 rounded-full transition-colors duration-500",
