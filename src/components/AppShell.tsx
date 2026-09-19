@@ -1,4 +1,5 @@
 import {
+  Gift,
   LayoutDashboard,
   LogOut,
   Monitor,
@@ -35,6 +36,7 @@ const NAV = [
   { to: "/app", label: "Dashboard", icon: LayoutDashboard, end: true },
   { to: "/app/debts", label: "Debts", icon: Wallet, end: false },
   { to: "/app/people", label: "People", icon: Users, end: false },
+  { to: "/app/wishlist", label: "Wishlist", icon: Gift, end: false },
   { to: "/app/settings", label: "Settings", icon: Settings, end: false },
 ] as const
 

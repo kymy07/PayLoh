@@ -80,3 +80,33 @@ export function paymentsOf(debt: Debt | null | undefined): Payment[] {
 export function round2(n: number): number {
   return Math.round((n + Number.EPSILON) * 100) / 100
 }
+
+/** How badly you want it — three levels, highest first. */
+export type WishPriority = "high" | "medium" | "low"
+
+export const WISH_PRIORITIES: { value: WishPriority; label: string; hint: string }[] = [
+  { value: "high", label: "Must have", hint: "Genuinely needed, buy first" },
+  { value: "medium", label: "Want", hint: "Would be nice soon" },
+  { value: "low", label: "Nice to have", hint: "Only if there's spare cash" },
+]
+
+export interface WishItem {
+  id: string
+  name: string
+  link?: string | null
+  price: number
+  currency: string
+  priority: WishPriority
+  note?: string | null
+  boughtAt?: Millis | null
+  createdAt: Millis
+  updatedAt: Millis
+}
+
+export type WishDraft = {
+  name: string
+  link?: string
+  price: number
+  priority: WishPriority
+  note?: string
+}

@@ -17,6 +17,7 @@ import { People } from "@/pages/People"
 import { PersonDetail } from "@/pages/PersonDetail"
 import { Settings } from "@/pages/Settings"
 import { Signup } from "@/pages/Signup"
+import { Wishlist } from "@/pages/Wishlist"
 
 /** Shown while Firebase decides whether there's a session to restore. */
 function Splash() {
@@ -88,6 +89,7 @@ export default function App() {
                 <Route path="debts/:debtId" element={<DebtDetail />} />
                 <Route path="people" element={<People />} />
                 <Route path="people/:personKey" element={<PersonDetail />} />
+                <Route path="wishlist" element={<Wishlist />} />
                 <Route path="settings" element={<Settings />} />
               </Route>
 

@@ -55,6 +55,35 @@
           "$other": { ".validate": false }
         }
       }
+    },
+
+    "wishlist": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        ".write": "auth != null && auth.uid === $uid",
+
+        "$wishId": {
+          ".validate": "newData.hasChildren(['name', 'price', 'currency', 'priority'])",
+
+          "name": {
+            ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 100"
+          },
+          "link": {
+            ".validate": "newData.isString() && newData.val().length <= 2000 && (newData.val().beginsWith('https://') || newData.val().beginsWith('http://'))"
+          },
+          "price": { ".validate": "newData.isNumber() && newData.val() >= 0" },
+          "currency": { ".validate": "newData.isString() && newData.val().length === 3" },
+          "priority": {
+            ".validate": "newData.val() === 'high' || newData.val() === 'medium' || newData.val() === 'low'"
+          },
+          "note": { ".validate": "newData.isString() && newData.val().length <= 200" },
+          "boughtAt": { ".validate": "newData.isNumber()" },
+          "createdAt": { ".validate": "newData.isNumber()" },
+          "updatedAt": { ".validate": "newData.isNumber()" },
+
+          "$other": { ".validate": false }
+        }
+      }
     }
   }
 }
